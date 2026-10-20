@@ -164,3 +164,7 @@ Il motion design è una **progressive enhancement senza dipendenze runtime**. La
 - **Non installati** GSAP, Motion, Rive, Lenis o Lottie: per questa fase aggiungerebbero complessità senza apportare funzionalità distintive rispetto alle API native. GSAP resta una possibile sperimentazione futura per scroll storytelling avanzato.
 
 Controlli: `npm test`; GitHub Actions `Landing quality` include verifiche Chromium 320–1440 px, e il Mac condiviso esegue gli stessi test Node. Anche con motion attivo, la demo rimane illustrativa, non collegata all'engine.
+
+### Motion system V2 — sorgenti in movimento e firma ASCII
+
+La demo include un racconto a tre capitoli — documenti, inferenza locale (nelle configurazioni supportate) e fonte verificabile — con pannello sticky su desktop e disposizione in flusso naturale su tablet/mobile. Tutti i testi rimangono leggibili senza JavaScript; il pannello è una visualizzazione illustrativa, **non** una dimostrazione live dell'engine. La hero ospita una firma ASCII locale che si anima lentamente solo quando visibile, si interrompe fuori schermo e rispetta la riduzione del movimento. Nessun GSAP/Lenis/CDN è stato aggiunto.
