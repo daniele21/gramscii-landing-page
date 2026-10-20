@@ -29,7 +29,7 @@ try {
  const problems=[];
  const viewport=html.clientWidth;
  const scroll=html.scrollWidth;
- if(Math.abs(viewport-width)>1)problems.push("iframe viewport mismatch: "+viewport);
+ if(viewport>width+1||viewport<width-20)problems.push("iframe viewport beyond scrollbar allowance: "+viewport+" / "+width);
  if(scroll>viewport+3)problems.push("document horizontal scroll: "+(scroll-viewport)+"px");
  const core=[".site-header",".hero h1",".demo-frame",".stories-grid",".value-grid",
  ".local-illustration",".case-grid",".mission-content",".vision-path",".faq-list"];
