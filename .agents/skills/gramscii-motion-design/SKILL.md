@@ -42,3 +42,10 @@ Default ease: cubic-bezier(.22, 1, .36, 1); entrance ~650ms; interaction ~300ms;
 ## When GSAP might be worth adding
 
 Only in a later experiment if user testing demonstrates need for multi-step pinned scroll scenes or dense coordinated motion. Never combine GSAP and Motion by default. Measure performance and reduced-motion before merging such an experiment.
+
+## Phase 2 narrative and animated signature
+
+- `storytelling.css` and `src/storytelling.js` define the restrained three-chapter **documenti → AI locale → fonte verificabile** source-trace scene inside the demo section. This is a visual explanation, never a claim of actual inference. The three complete explanatory cards remain legible and accessible without JavaScript.
+- Desktop: the framed schema uses `position: sticky` as the browser scrolls alongside the prose, but never pins or intercepts scroll input. At <=960px the panel becomes normal flow; small screens stack each chapter vertically.
+- Hero: an aria-hidden, decorative ASCII sine wave draws at <=10fps only when visible, ceases work offscreen or on a hidden page, and freezes under reduced motion. No network, no user data, no canvas, no telemetry.
+- Tests assert the chapter selection and backward scrolling logic, animation lifecycle, reduced motion, layout and no overflow.
