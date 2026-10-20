@@ -35,7 +35,7 @@ test("landing has meaningful navigation, heading and key sections", () => {
   assert.match(html, /<html lang="it">/);
   assert.match(html, /<main id="main">/);
   assert.match(html, /<h1 id="hero-heading">/);
-  for (const id of ["perche", "demo", "casi", "tecnologia", "domande", "contatto"]) {
+  for (const id of ["demo", "storie", "perche", "locale", "casi", "mission", "vision", "tecnologia", "domande", "contatto"]) {
     assert.ok(html.includes('id="' + id + '"'), "Missing section: " + id);
   }
   assert.match(html, /class="skip-link"/);
@@ -113,4 +113,52 @@ test("no fabricated absolute privacy or compliance promises are on the landing",
   assert.doesNotMatch(html, /GDPR compliant by default|sempre compliant|nessun dato nel cloud, mai/i);
   assert.match(html, /può restare sul computer|sul tuo dispositivo nella modalità completamente locale/i);
   assert.match(html, /documenti fittizi/i);
+});
+
+test("commercial hero begins with the brand promise and a concrete, qualified product outcome", () => {
+  assert.match(html, /LA TUA AI\. ALLE TUE CONDIZIONI\./);
+  assert.match(html, /<h1 id="hero-heading">Fai lavorare l'AI sui tuoi documenti\.<br><em>Senza perdere il controllo\.<\/em><\/h1>/);
+  assert.match(html, /Le risposte rimandano|risposte collegate alle fonti/);
+  assert.match(html, /nelle configurazioni supportate/);
+  const hero = html.indexOf('class="hero section-shell"');
+  const demo = html.indexOf('class="section demo-section"');
+  const stories = html.indexOf('class="section stories-section"');
+  const benefits = html.indexOf('class="value-strip"');
+  const mission = html.indexOf('class="section mission-section"');
+  const vision = html.indexOf('class="section vision-section"');
+  assert.ok(hero < demo && demo < stories && stories < benefits && benefits < mission && mission < vision,
+    "Narrative order should be promise → proof → relatable stories → capabilities → mission → vision");
+});
+
+test("everyday stories have concrete situations and actionable destinations", () => {
+  for (const phrase of [
+    'Hanno aggiornato il contratto',
+    'il file contiene dati di un cliente',
+    'Sono in treno',
+    'verbale di condominio',
+  ]) assert.ok(html.includes(phrase), "Missing story: " + phrase);
+  assert.match(html, /data-demo-select="contracts"/);
+  assert.match(html, /class="story-action" href="#locale"/);
+  assert.match(html, /class="story-action" href="#domande"/);
+  assert.match(html, /Le storie sono situazioni illustrative/);
+});
+
+test("purpose and hardware vision remain distinct and future-facing", () => {
+  assert.match(html, /id="mission" aria-labelledby="mission-heading"/);
+  assert.match(html, /id="vision" aria-labelledby="vision-heading"/);
+  assert.match(html, /accessibile a tutti/);
+  assert.match(html, /Il cloud può essere un'opzione/);
+  assert.match(html, /Hardware pensato per l'AI/);
+  assert.match(html, /HARDWARE DEDICATO: DIREZIONE FUTURA, NON PRODOTTO DISPONIBILE/);
+  assert.doesNotMatch(html, /Compra ora l'AI Box|hardware Gramscii disponibile ora/i);
+});
+
+test("new storytelling retains responsive dark-brand contrast and editorial fonts", () => {
+  for (const part of [".stories-section", ".mission-section", ".vision-section", ".stories-grid", ".vision-path", ".story-card"]) {
+    assert.ok(darkTheme.includes(part), "Missing new visual component: " + part);
+  }
+  assert.match(darkTheme, /@media \(max-width: 800px\)/);
+  assert.match(darkTheme, /@media \(max-width: 560px\)/);
+  assert.match(darkTheme, /var\(--brand-serif\)/);
+  assert.doesNotMatch(darkTheme, /Manrope|Plus Jakarta Sans/);
 });
