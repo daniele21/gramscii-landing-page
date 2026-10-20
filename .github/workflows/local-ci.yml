@@ -1,0 +1,42 @@
+name: Local CI (dispatch)
+
+# Same shared Mac-runner contract as Korgis and RedactGuard.
+# This lightweight GitHub-hosted job only delivers a trusted source SHA;
+# the actual tests execute on the Mac in local-runner-infra.
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gramscii-local-dispatch-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dispatch:
+    if: github.repository == 'daniele21/gramscii-landing-page'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send exact trusted commit to shared Mac CI
+        env:
+          GH_TOKEN: ${{ secrets.CENTRAL_DISPATCH_TOKEN }}
+          CENTRAL_REPO: daniele21/local-runner-infra
+          SOURCE_REPO: ${{ github.repository }}
+          SOURCE_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${GH_TOKEN:-}" ]]; then
+            echo "::error::Missing CENTRAL_DISPATCH_TOKEN; set a fine-grained PAT scoped to central repo."
+            exit 2
+          fi
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 2
+          gh api --method POST "repos/$CENTRAL_REPO/dispatches" \
+            -f event_type=run-ci \
+            -f "client_payload[repository]=$SOURCE_REPO" \
+            -f "client_payload[sha]=$SOURCE_SHA"
+          echo "::notice::Dispatch accepted; inspect local-ci/mac on the exact source SHA for test results."
