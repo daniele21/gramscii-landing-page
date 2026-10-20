@@ -116,10 +116,11 @@ test("no fabricated absolute privacy or compliance promises are on the landing",
 });
 
 test("commercial hero begins with the brand promise and a concrete, qualified product outcome", () => {
-  assert.match(html, /LA TUA AI\. ALLE TUE CONDIZIONI\./);
-  assert.match(html, /<h1 id="hero-heading">Fai lavorare l'AI sui tuoi documenti\.<br><em>Senza perdere il controllo\.<\/em><\/h1>/);
-  assert.match(html, /Le risposte rimandano|risposte collegate alle fonti/);
-  assert.match(html, /nelle configurazioni supportate/);
+  assert.match(html, /PRIVATA\. LOCALE\. VERIFICABILE\./);
+  assert.match(html, /<h1 id="hero-heading">La tua AI\.<br><em>Sotto il tuo controllo\.<\/em><\/h1>/);
+  assert.match(html, /<h2 class="hero-outcome" id="hero-outcome-heading">Trova quello che conta nei tuoi documenti\. <em>Senza cercare pagina per pagina\.<\/em><\/h2>/);
+  assert.match(html, /verificarli nelle fonti originali/);
+  assert.match(html, /Nella modalità completamente locale, non devi inviare i documenti a servizi AI esterni/);
   const hero = html.indexOf('class="hero section-shell"');
   const demo = html.indexOf('class="section demo-section"');
   const stories = html.indexOf('class="section stories-section"');
@@ -223,4 +224,27 @@ test("representative copy colours on section surfaces reach WCAG AA text contras
     assert.ok(textContrast(foreground, background) >= 4.5,
       name + " is below WCAG AA 4.5:1: " + textContrast(foreground,background).toFixed(2));
   }
+});
+
+test("brand promise and concrete outcome appear together, without stale copy", () => {
+  const hero = html.match(/<section class="hero section-shell"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(hero, "Hero not found");
+  assert.match(hero, /<h1 id="hero-heading">La tua AI\.<br><em>Sotto il tuo controllo\.<\/em><\/h1>/);
+  assert.match(hero, /PRIVATA\. LOCALE\. VERIFICABILE\./);
+  assert.match(hero, /RISULTATI CONCRETI, SUI TUOI DOCUMENTI/);
+  assert.match(hero, /Senza cercare pagina per pagina/);
+  assert.match(hero, /href="#demo">Esplora la demo/);
+  assert.match(hero, /href="#casi">Scopri le applicazioni/);
+  assert.match(html, /<title>Gramscii — La tua AI\. Sotto il tuo controllo\.<\/title>/);
+  assert.match(html, /<meta property="og:title" content="Gramscii — La tua AI\. Sotto il tuo controllo\."/);
+  assert.match(html, /<p>La tua AI\. Sotto il tuo controllo\.<\/p>/);
+  assert.doesNotMatch(html, /Alle tue condizioni|ON YOUR TERMS/i);
+});
+
+test("brand and outcome have distinct, readable typography at all breakpoints", () => {
+  assert.match(darkTheme, /\.hero \.hero-traits\s*\{/);
+  assert.match(darkTheme, /\.hero h1\s*\{/);
+  assert.match(darkTheme, /\.hero \.hero-outcome\s*\{[\s\S]*?font-family: var\(--brand-sans\)/);
+  assert.match(darkTheme, /\.hero-outcome-block\s*\{/);
+  assert.match(darkTheme, /@media\(max-width: 560px\)[\s\S]*?\.hero \.hero-outcome \{ font-size: 1\.22rem/);
 });

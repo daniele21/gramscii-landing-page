@@ -1,6 +1,6 @@
 # Gramscii — Landing page
 
-Landing page italiana per Gramscii, fondata sulla promessa **«La tua AI. Alle tue condizioni.»** e su una proposta di valore concreta: analisi documentale con fonti consultabili, maggiore controllo dei dati e possibilità di funzionamento locale/offline nelle configurazioni supportate. È un prototipo marketing, non un'interfaccia connessa all'engine Gramscii.
+Landing page italiana per Gramscii, fondata sulla promessa **«La tua AI. Sotto il tuo controllo.»** e su una proposta di valore concreta: analisi documentale con fonti consultabili, maggiore controllo dei dati e possibilità di funzionamento locale/offline nelle configurazioni supportate. È un prototipo marketing, non un'interfaccia connessa all'engine Gramscii.
 
 ## Avvio locale
 
@@ -18,7 +18,7 @@ Il comando esegue test unitari e controlli sintattici con Node.js, senza install
 
 ## Contenuti
 
-- **Hero:** promessa «La tua AI. Alle tue condizioni.» e risultato commerciale «Fai lavorare l'AI sui tuoi documenti. Senza perdere il controllo.»
+- **Hero:** promessa «La tua AI. Sotto il tuo controllo.», tre caratteristiche «Privata. Locale. Verificabile.» e risultato commerciale «Trova quello che conta nei tuoi documenti. Senza cercare pagina per pagina.»
 - **Demo:** tre scenari interattivi con citazioni cliccabili e passaggi originali (tutti fittizi e dichiarati).
 - **Storie quotidiane:** contratto aggiornato, file riservato, lavoro in treno senza connessione. Una quarta microstoria (verbale condominiale) esemplifica l'accessibilità.
 - **Quattro benefici:** controllo dei dati, fonti verificabili, offline e personalizzazione.
@@ -114,8 +114,8 @@ is confirmed. Full operating policy:
 
 La narrazione segue il percorso: **promessa → dimostrazione verificabile → situazione quotidiana → vantaggi → caso d'uso → mission → vision → costi e tecnologia → CTA**. L'utente deve capire prima cosa può fare e perché, poi scoprire lo scopo dell'azienda.
 
-- **Brand promise (evergreen):** «La tua AI. Alle tue condizioni.» Anche in inglese «Your AI. On your terms.»
-- **Hero commerciale (B2B):** «Fai lavorare l'AI sui tuoi documenti. Senza perdere il controllo.»
+- **Brand promise (evergreen):** «La tua AI. Sotto il tuo controllo.» Le tre caratteristiche di supporto sono «Privata. Locale. Verificabile.»
+- **Hero commerciale (B2B):** «Trova quello che conta nei tuoi documenti. Senza cercare pagina per pagina.» Il secondo livello di headline parla del risultato concreto; il motto rimane indipendente dal verticale documentale.
 - **Mission:** rendere l'intelligenza artificiale accessibile a tutti, senza rinunciare al controllo. L'accessibilità non è sinonimo di gratuità.
 - **Vision:** intelligenza artificiale personale, utilizzabile sui dispositivi scelti. Il cloud deve restare una possibilità, non un vincolo per ogni attività.
 - **Hardware futuro:** eventuale offerta dedicata deve semplificare l'adozione e non creare lock-in. Nessun hardware viene indicato come disponibile.
