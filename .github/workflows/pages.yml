@@ -1,0 +1,63 @@
+name: Publish Gramscii landing to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: gramscii-pages
+  cancel-in-progress: false
+
+jobs:
+  verify-and-package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout the exact source commit
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run landing unit and static checks
+        run: bash .github/ci/local-test.sh
+
+      - name: Run Chromium layout checks at five viewport widths
+        run: node .github/ci/browser-layout-audit.mjs
+
+      - name: Package only public website assets
+        run: |
+          set -euo pipefail
+          mkdir -p _site/src
+          cp index.html styles.css brand-dark.css favicon.svg _site/
+          cp src/app.js src/content.js _site/src/
+          touch _site/.nojekyll
+          test -s _site/index.html
+          test -s _site/brand-dark.css
+          test -s _site/src/app.js
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  publish:
+    needs: verify-and-package
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy the validated static website
+        id: deployment
+        uses: actions/deploy-pages@v4
