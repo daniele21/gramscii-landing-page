@@ -28,21 +28,43 @@ Il comando esegue test unitari e controlli sintattici con Node.js, senza install
 - **Vision:** un'AI personale disponibile sui dispositivi scelti; l'hardware specializzato è una direzione di lungo periodo, non un prodotto in vendita.
 - **Altre sezioni:** costi API qualificati, tecnologia, FAQ e contatto.
 
-## Design system — Dark Contrast (V3)
+## Design system — Dark Contrast V5 · Typography & Section Rhythm
 
-I token sono ripresi dal materiale esistente Gramscii (laboratorio ASCII):
-- Ink: #0d0f12
-- Bone: #e8e6df
-- Teal: #6f9490
-- Ice: #cfe3f2
-- Blue: #8fb4cf
-- Steel: #5a7e9a
+I token di base rimangono quelli del brand kit Gramscii: ink `#0d0f12`, bone `#e8e6df`, teal `#6f9490`, ice `#cfe3f2`, blue `#8fb4cf`, steel `#5a7e9a`, navy `#2e4254`. Le superfici intermedie sono varianti tonali, non una nuova palette.
 
-La V3 mantiene un **tema scuro** in tutte le sezioni, derivando il contrasto da tonalità originali del brand: ink antracite, superfici charcoal e navy, accenti ghiaccio e teal. Solo il documento delle fonti nella demo e la fascia economica sono deliberatamente molto chiare per guidare la lettura.
+### Tipografia — perché questa scelta
 
-**Tipografia:** wordmark e titoli Bodoni/Didot con fallback Georgia; microcopy, navigazione, CTA, metadata e source-chip in monospace SF Mono/Menlo/Consolas. I paragrafi usano una sans neutra Helvetica Neue/Segoe UI/Arial, non una rounded/friendly. Nessun font viene caricato da terze parti.
+- **Marchio:** Bodoni 72 Smallcaps / Didot; è un elemento identitario e non un font da applicare indiscriminatamente al resto della landing.
+- **Titoli editoriali:** Georgia, una serif più robusta e facilmente reperibile su sistemi diversi; mantiene l'aspetto premium ma evita i tratti particolarmente sottili di Didot/Bodoni quando i titoli si leggono su display.
+- **Testi:** stack sans di sistema, con `-apple-system` e `Segoe UI` come opzioni native; 17px desktop, 16px mobile, interlinea 1.69–1.72.
+- **Microcopy tecnico:** SF Mono / Menlo / Consolas, usato per label, navigazione, CTA e metadati; target >=12px per le etichette operative e >=13px per i controlli. Le piccole scritte dell'anteprima documentale sono illustrative e utilizzano dimensioni dedicate.
+- **Ampiezza:** paragrafi principali lunghi max `68ch`, titoli max `4.4rem` e gerarchia responsive con breakpoints 1120/800/560/390px.
+- **Privacy/offline:** nessun font caricato da CDN, nessuna dipendenza runtime introdotta. Georgia è una scelta con fallback serif se manca nel sistema.
 
-**Componenti:** card dark con tonalità differenziate, bordi contrastati, angoli controllati di 9–18px (non grandi pillole), demo con fondo scuro e documenti originali bone/ice ad alto contrasto. Foglio di stile di riferimento: `brand-dark.css` caricato dopo `styles.css` per la V3. I token corrispondono al laboratorio ASCII senza introdurre una nuova palette.
+### Contrasto tra sezioni
+
+Non trasformiamo Gramscii in un sito chiaro. Il fondale dominante rimane ink/navy, ma ogni capitolo importante deve avere uno **stacco di luminanza riconoscibile**:
+
+1. **Hero:** ink `#0d0f12`.
+2. **Demo verificabile:** slate originale `#2e4254`, con workspace scuro.
+3. **Storie:** midnight `#101920`.
+4. **Quattro vantaggi:** blue-petrolio `#203b49`, card volutamente più scure del fondale.
+5. **Privacy:** antracite, con pannello dati in evidenza.
+6. **Applicazioni:** slate desaturato `#243846`.
+7. **Mission:** fascia editoriale **bone `#e8e6df`**, testo scuro.
+8. **Vision:** navy `#172b37`.
+9. **Costi API:** fascia **ice `#cfe3f2`**, testo scuro (già in V4, ora riarmonizzata).
+10. **Tecnologia:** ink; **FAQ:** slate; **CTA:** charcoal con bordi leggibili.
+
+Solo **Mission** e **Costi API** sono sezioni chiare. Il contrasto nasce da colori del brand kit, non da gradients/glow decorativi.
+
+### Regole di qualità
+
+- Riferimento WCAG AA: contrasto testo normale >=4,5:1 e testo grande >=3:1.
+- Test di regressione Node.js calcolano il contrasto delle principali combinazioni foreground/background delle sezioni e controllano font/scala/ritmo cromatico.
+- Contrast test non sostituisce una verifica visuale con browser e zoom 200%, per il corretto wrapping su schermi piccoli.
+- Il nuovo intervento è nello stesso foglio `brand-dark.css` caricato dopo `styles.css`. Nessun nuovo font web o tracking.
+
 
 DA FINALIZZARE: sostituire il monogramma [::] e il favicon [g] con gli asset ufficiali del brand, dopo approvazione del team. La grafica ASCII è un'interpretazione coerente con l'identità, non una riproduzione dell'asset proprietario. L'anteprima hero è illustrativa e usa documenti fittizi, coerenti con gli esempi della demo.
 
