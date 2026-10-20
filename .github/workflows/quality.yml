@@ -36,3 +36,13 @@ jobs:
           google-chrome --version || chromium --version
       - name: Audit real browser layout (320, 390, 640, 768, 1440px)
         run: node .github/ci/browser-layout-audit.mjs
+      - name: Capture desktop and mobile visual review snapshots
+        run: node .github/ci/visual-snapshots.mjs
+      - name: Upload browser snapshots for design review
+        uses: actions/upload-artifact@v4
+        with:
+          name: gramscii-visual-review
+          path: .visual-snapshots/*.png
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error

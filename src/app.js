@@ -1,3 +1,4 @@
+import { initProofJourney, initAsciiWave } from "./storytelling.js";
 import { initMotion, pulseEvidence } from "./motion.js";
 import { scenarios } from "./content.js";
 
@@ -167,3 +168,5 @@ document.addEventListener("click", event => {
 $("#year").textContent = String(new Date().getFullYear());
 renderCase(activeCase);
 initMotion();
+initProofJourney();
+initAsciiWave();

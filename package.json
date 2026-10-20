@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Landing page Gramscii: local-first AI and source-grounded evidence",
   "scripts": {
-    "test": "node --test && node --check src/app.js && node --check src/content.js && node --check src/motion.js",
+    "test": "node --test && node --check src/app.js && node --check src/content.js && node --check src/motion.js && node --check src/storytelling.js",
     "dev": "python3 -m http.server 4173",
     "start": "python3 -m http.server 4173"
   },

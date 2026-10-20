@@ -28,8 +28,10 @@ for (const path of [
   'styles.css',
   'brand-dark.css',
   'motion.css',
+  'storytelling.css',
   'src/app.js',
   'src/motion.js',
+  'src/storytelling.js',
   'src/content.js',
   'favicon.svg',
 ]) {

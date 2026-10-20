@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./brand-dark.css">
   <link rel="stylesheet" href="./motion.css">
+  <link rel="stylesheet" href="./storytelling.css">
   <script type="module" src="./src/app.js"></script>
 </head>
 <body>
@@ -62,6 +63,12 @@
         </div>
         <div class="hero-visual" role="img" aria-label="Anteprima illustrativa: confronto tra due contratti, risposta e citazione della fonte">
           <div class="preview-halo" aria-hidden="true"></div>
+          <pre class="hero-ascii-signal" aria-hidden="true">   . : + .        .   :
+ . : + * : .    . : + .
+: + * # + :  . : + * :
+ . : + * : .  . : + .
+   . : + .       . :
+</pre>
           <div class="preview-window">
             <div class="preview-topbar">
               <span class="preview-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -101,6 +108,55 @@
         <div class="section-intro intro-split">
           <div><p class="eyebrow">01 / VEDERE PER CREDERE</p><h2 id="demo-heading">Non fidarti sulla parola.<br><em>Verifica la fonte.</em></h2></div>
           <p>Non basta una risposta convincente. Serve sapere dove controllarla. Scegli un caso dimostrativo e seleziona una citazione per vedere il passaggio originale.</p>
+        </div>
+        <div class="proof-journey" aria-label="Dal documento alla fonte verificabile">
+          <div class="proof-scene" aria-hidden="true" data-proof-scene data-active-step="0">
+            <div class="proof-scene-top">
+              <span>GRAMSCII / SOURCE TRACE</span>
+              <span class="proof-scene-led"><i></i> FLUSSO ILLUSTRATIVO</span>
+            </div>
+            <div class="proof-scene-core">
+              <div class="proof-scene-grid"></div>
+              <div class="proof-nodes">
+                <div class="proof-node is-active" data-proof-node="0">
+                  <span class="proof-node-symbol">[▤]</span><span class="proof-node-name">DOCUMENTI</span>
+                  <small>01 / INPUT</small>
+                </div>
+                <div class="proof-connector" aria-hidden="true"><span>· · · · ·</span></div>
+                <div class="proof-node" data-proof-node="1">
+                  <span class="proof-node-symbol">[::]</span><span class="proof-node-name">AI LOCALE</span>
+                  <small>02 / ANALISI</small>
+                </div>
+                <div class="proof-connector" aria-hidden="true"><span>· · · · ·</span></div>
+                <div class="proof-node" data-proof-node="2">
+                  <span class="proof-node-symbol">[↗]</span><span class="proof-node-name">FONTE</span>
+                  <small>03 / VERIFICA</small>
+                </div>
+              </div>
+              <div class="proof-scene-readout">
+                <span>STATO / <strong data-proof-readout>DOCUMENTI</strong></span>
+                <span class="proof-scene-index" data-proof-index>01 / 03</span>
+              </div>
+            </div>
+            <div class="proof-scene-foot"><span>LOCAL FIRST</span><span>PERSONAL CONTROL</span><span>DOCUMENTED ANSWERS</span></div>
+          </div>
+          <div class="proof-stages" aria-label="I tre passaggi dell'esperienza">
+            <article class="proof-stage is-active" data-proof-step="0">
+              <span class="proof-stage-index">01 / DOCUMENTI</span>
+              <h3>Parti dai file che usi già.</h3>
+              <p>Contratti, report e procedure diventano il punto di partenza delle tue domande, senza cercare ogni volta pagina per pagina.</p>
+            </article>
+            <article class="proof-stage" data-proof-step="1">
+              <span class="proof-stage-index">02 / ELABORAZIONE</span>
+              <h3>L'AI può lavorare in locale.</h3>
+              <p>Nelle configurazioni completamente locali, i documenti e i modelli supportati restano sul tuo dispositivo, senza chiamate a servizi AI esterni.</p>
+            </article>
+            <article class="proof-stage" data-proof-step="2">
+              <span class="proof-stage-index">03 / VERIFICA</span>
+              <h3>La risposta ti riporta alla fonte.</h3>
+              <p>Vai al passaggio originale per controllare informazioni e differenze. La demo qui sotto illustra il funzionamento con documenti fittizi.</p>
+            </article>
+          </div>
         </div>
         <div class="demo-frame">
           <div class="demo-toolbar">
