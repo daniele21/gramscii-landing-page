@@ -19,3 +19,20 @@ jobs:
           node-version: '22'
       - name: Run zero-dependency checks
         run: bash .github/ci/local-test.sh
+
+  visual-layout:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Chromium is available
+        run: |
+          google-chrome --version || chromium --version
+      - name: Audit real browser layout (320, 390, 640, 768, 1440px)
+        run: node .github/ci/browser-layout-audit.mjs
