@@ -1,6 +1,6 @@
 # Gramscii — Landing page
 
-Landing page italiana per Gramscii, focalizzata su AI locale, controllo dei dati e risposte collegate alle fonti. È un prototipo marketing, non un'interfaccia connessa all'engine Gramscii.
+Landing page italiana per Gramscii, fondata sulla promessa **«La tua AI. Alle tue condizioni.»** e su una proposta di valore concreta: analisi documentale con fonti consultabili, maggiore controllo dei dati e possibilità di funzionamento locale/offline nelle configurazioni supportate. È un prototipo marketing, non un'interfaccia connessa all'engine Gramscii.
 
 ## Avvio locale
 
@@ -18,11 +18,15 @@ Il comando esegue test unitari e controlli sintattici con Node.js, senza install
 
 ## Contenuti
 
-- Hero centrata sul controllo dei dati.
-- Quattro benefici: privacy locale, fonti verificabili, funzionamento offline e adattamento al lavoro.
-- Tre scenari di demo interattivi con citazioni cliccabili e vista del passaggio originale.
-- Switch che distingue inferenza locale da funzionalità con servizi esterni.
-- Casi d'uso, tecnologia, FAQ e invito a contattare il team tramite LinkedIn.
+- **Hero:** promessa «La tua AI. Alle tue condizioni.» e risultato commerciale «Fai lavorare l'AI sui tuoi documenti. Senza perdere il controllo.»
+- **Demo:** tre scenari interattivi con citazioni cliccabili e passaggi originali (tutti fittizi e dichiarati).
+- **Storie quotidiane:** contratto aggiornato, file riservato, lavoro in treno senza connessione. Una quarta microstoria (verbale condominiale) esemplifica l'accessibilità.
+- **Quattro benefici:** controllo dei dati, fonti verificabili, offline e personalizzazione.
+- **Privacy:** switch che distingue inferenza locale da funzionalità con servizi esterni.
+- **Applicazioni:** contratti, report, documentazione tecnica.
+- **Mission:** rendere l'AI accessibile a tutti senza rinunciare al controllo.
+- **Vision:** un'AI personale disponibile sui dispositivi scelti; l'hardware specializzato è una direzione di lungo periodo, non un prodotto in vendita.
+- **Altre sezioni:** costi API qualificati, tecnologia, FAQ e contatto.
 
 ## Design system — Dark Contrast (V3)
 
@@ -80,6 +84,19 @@ validation passed, but local dispatch is **blocked by missing secret** and
 central runner allowlist approval. No successful Mac validation has yet
 been claimed. Full operating policy:
 [shared runner integration guide](https://github.com/daniele21/local-runner-infra/blob/main/docs/integration-guide.md).
+
+## Strategia narrativa e scope dei messaggi
+
+La narrazione segue il percorso: **promessa → dimostrazione verificabile → situazione quotidiana → vantaggi → caso d'uso → mission → vision → costi e tecnologia → CTA**. L'utente deve capire prima cosa può fare e perché, poi scoprire lo scopo dell'azienda.
+
+- **Brand promise (evergreen):** «La tua AI. Alle tue condizioni.» Anche in inglese «Your AI. On your terms.»
+- **Hero commerciale (B2B):** «Fai lavorare l'AI sui tuoi documenti. Senza perdere il controllo.»
+- **Mission:** rendere l'intelligenza artificiale accessibile a tutti, senza rinunciare al controllo. L'accessibilità non è sinonimo di gratuità.
+- **Vision:** intelligenza artificiale personale, utilizzabile sui dispositivi scelti. Il cloud deve restare una possibilità, non un vincolo per ogni attività.
+- **Hardware futuro:** eventuale offerta dedicata deve semplificare l'adozione e non creare lock-in. Nessun hardware viene indicato come disponibile.
+- **Storie:** sono scenari narrativi, non casi cliente validati o benchmark. Sono distinti dalla demo interattiva, anch'essa fittizia.
+
+La palette e la tipografia non cambiano con questa revisione: tema dark con Bodoni/Didot + microtipografia monospace, tonalità ink, bone, ice, steel, navy e teal. I nuovi elementi sono in `brand-dark.css`.
 
 ## Nota sulla correttezza delle promesse
 
