@@ -343,7 +343,9 @@ h2 {font-size:clamp(3rem,5.2vw,5.1rem);line-height:1.08}
    Contrast is architectural: ink → slate → deep teal → ice. */
 .hero .eyebrow { color: #b2d1e0; letter-spacing: .1em; }
 .hero h1 { max-width: 820px; }
-.hero-grid { grid-template-columns: minmax(0,1.04fr) minmax(0,.96fr); }
+@media (min-width: 801px) {
+  .hero-grid { grid-template-columns: minmax(0,1.04fr) minmax(0,.96fr); }
+}
 .hero-lead { max-width: 575px; }
 .hero .preview-source { background: #cfe3f2; }
 .hero-notes { max-width: 680px; }
