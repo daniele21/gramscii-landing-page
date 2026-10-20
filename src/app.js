@@ -1,3 +1,4 @@
+import { initMotion, pulseEvidence } from "./motion.js";
 import { scenarios } from "./content.js";
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -97,7 +98,7 @@ function renderCase(name, options = {}) {
 }
 
 demoTabs.forEach((tab, index) => {
-  tab.addEventListener("click", () => renderCase(tab.dataset.case));
+  tab.addEventListener("click", () => { renderCase(tab.dataset.case); pulseEvidence(workspace); });
   tab.addEventListener("keydown", event => {
     let next = null;
     if (event.key === "ArrowRight") next = (index + 1) % demoTabs.length;
@@ -116,6 +117,7 @@ workspace.addEventListener("click", event => {
   if (!button || !workspace.contains(button)) return;
   const index = Number(button.dataset.source);
   renderSource(index);
+  pulseEvidence(sourceQuote);
 });
 
 $$("[data-demo-select]").forEach(button => {
@@ -135,6 +137,7 @@ $$("[data-mode]").forEach(button => {
     });
     $("#mode-local").hidden = selected !== "local";
     $("#mode-connected").hidden = selected !== "connected";
+    pulseEvidence($("#mode-" + selected));
   });
 });
 
@@ -163,3 +166,4 @@ document.addEventListener("click", event => {
 
 $("#year").textContent = String(new Date().getFullYear());
 renderCase(activeCase);
+initMotion();

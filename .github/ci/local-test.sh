@@ -27,7 +27,9 @@ for (const path of [
   'index.html',
   'styles.css',
   'brand-dark.css',
+  'motion.css',
   'src/app.js',
+  'src/motion.js',
   'src/content.js',
   'favicon.svg',
 ]) {

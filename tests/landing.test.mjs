@@ -7,6 +7,8 @@ const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
 const darkTheme = readFileSync(new URL("../brand-dark.css", import.meta.url), "utf8");
 const js = readFileSync(new URL("../src/app.js", import.meta.url), "utf8");
+const motionJs = readFileSync(new URL("../src/motion.js", import.meta.url), "utf8");
+const motionCss = readFileSync(new URL("../motion.css", import.meta.url), "utf8");
 
 test("every demo citation points to a real excerpt in its own scenario", () => {
   assert.equal(Object.keys(scenarios).length, 3);
@@ -247,4 +249,33 @@ test("brand and outcome have distinct, readable typography at all breakpoints", 
   assert.match(darkTheme, /\.hero \.hero-outcome\s*\{[\s\S]*?font-family: var\(--brand-sans\)/);
   assert.match(darkTheme, /\.hero-outcome-block\s*\{/);
   assert.match(darkTheme, /@media\(max-width: 560px\)[\s\S]*?\.hero \.hero-outcome \{ font-size: 1\.22rem/);
+});
+
+test("motion is opt-in enhancement and loads no extra packages or CDNs", () => {
+  assert.match(html, /<link rel="stylesheet" href="\.\/motion\.css">/);
+  assert.match(js, /import \{ initMotion, pulseEvidence \} from "\.\/motion\.js"/);
+  assert.match(js, /initMotion\(\);/);
+  assert.match(motionJs, /IntersectionObserver/);
+  assert.match(motionJs, /prefers-reduced-motion: reduce/);
+  assert.match(motionJs, /getBoundingClientRect/);
+  assert.match(motionCss, /\.motion-ready \.reveal-pending/);
+  assert.match(motionCss, /\.motion-ready \.reveal-pending\.is-visible/);
+  assert.match(motionCss, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.doesNotMatch(motionCss, /@import|url\s*\(/i);
+  assert.doesNotMatch(motionJs, /fetch\s*\(|XMLHttpRequest|new WebSocket/);
+  assert.ok(existsSync(new URL("../.agents/skills/gramscii-motion-design/SKILL.md", import.meta.url)));
+});
+
+test("motion is optional for semantics, accessibility and demo controls", () => {
+  // No pre-render hidden state in the source HTML. Motion is enabled by JS
+  // after the DOM is usable. Interactive content is never gated by animation.
+  assert.doesNotMatch(html, /class="[^"]*\breveal-pending\b/);
+  assert.doesNotMatch(html, /class="[^"]*\bmotion-ready\b/);
+  assert.match(motionJs, /if \(!preference \|\| preference\.matches/);
+  assert.match(motionJs, /observer\.disconnect\(\)/);
+  assert.match(motionJs, /el\.classList\.add\("is-visible"\)/);
+  assert.match(js, /pulseEvidence\(sourceQuote\)/);
+  assert.match(js, /pulseEvidence\(workspace\)/);
+  assert.match(js, /pulseEvidence\(\$\("#mode-" \+ selected\)\)/);
+  assert.match(motionCss, /\.story-card:focus-within/);
 });

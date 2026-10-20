@@ -153,3 +153,14 @@ Prima di un eventuale lancio pubblico: asset ufficiali, revisione legale dei cla
 ## Checklist manuale
 
 Oltre a npm test, verificare browser desktop e mobile (320px–1440px), interazioni da tastiera, screen reader, animazioni ridotte, correttezza dei link esterni e leggibilità dei testi.
+
+## Motion system V1 — dark editorial Gramscii
+
+Il motion design è una **progressive enhancement senza dipendenze runtime**. La landing continua a funzionare localmente, con JS disattivato o su browser senza IntersectionObserver. Tutte le animazioni sono facoltative e rispettano la preferenza di sistema per la riduzione del movimento.
+
+- `motion.css`: animazione iniziale della promessa, card hover, reveal delle sezioni, segnale luminoso discreto sulla demo e microanimazione ASCII del marchio.
+- `src/motion.js`: IntersectionObserver one-shot con breve stagger e Web Animations API per visualizzare aggiornamenti delle fonti/documenti selezionati.
+- `.agents/skills/gramscii-motion-design/SKILL.md`: regole di design, tempistiche, performance, privacy, accessibilità e test per ogni futuro intervento.
+- **Non installati** GSAP, Motion, Rive, Lenis o Lottie: per questa fase aggiungerebbero complessità senza apportare funzionalità distintive rispetto alle API native. GSAP resta una possibile sperimentazione futura per scroll storytelling avanzato.
+
+Controlli: `npm test`; GitHub Actions `Landing quality` include verifiche Chromium 320–1440 px, e il Mac condiviso esegue gli stessi test Node. Anche con motion attivo, la demo rimane illustrativa, non collegata all'engine.

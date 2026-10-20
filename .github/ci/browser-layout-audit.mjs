@@ -21,7 +21,7 @@ function auditPage(width){
 <script>
 const width=${width};
 const iframe=document.getElementById("site");
-iframe.addEventListener("load",()=>setTimeout(()=>{
+iframe.addEventListener("load",()=>setTimeout(async ()=>{
 try {
  const d=iframe.contentDocument;
  const win=iframe.contentWindow;
@@ -56,13 +56,36 @@ try {
  const computed=win.getComputedStyle(heading);
  if(!computed.fontFamily.includes("Georgia"))problems.push("heading font: "+computed.fontFamily);
  if(parseFloat(computed.fontSize)<34)problems.push("hero heading font below 34px");
+ // Motion is progressive: desktop and mobile enter gracefully and the
+ // document always remains usable with a reduced-motion preference.
+ const isReduced=win.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const motionReady=html.classList.contains("motion-ready");
+ const motionStatic=html.classList.contains("motion-static");
+ if(!isReduced&&!motionReady)problems.push("motion controller not initialized");
+ if(isReduced&&!motionStatic)problems.push("reduced-motion did not disable reveal system");
+ if(isReduced&&motionReady)problems.push("reduced-motion still has motion-ready class");
+ const sourceReveal=d.querySelector(".stories-grid .story-card");
+ if(!sourceReveal) problems.push("missing narrative card for scroll audit");
+ else if(!isReduced){
+   sourceReveal.scrollIntoView({behavior:"instant",block:"center"});
+   await new Promise(resolve=>setTimeout(resolve,850));
+   if(!sourceReveal.classList.contains("is-visible")){
+     problems.push("narrative card not revealed after entering viewport");
+   }
+   const opacity=Number.parseFloat(win.getComputedStyle(sourceReveal).opacity);
+   if(opacity<.95)problems.push("narrative card still faded after transition: "+opacity);
+ } else {
+   const heroAnim=win.getComputedStyle(d.getElementById("hero-heading")).animationName;
+   if(heroAnim!=="none")problems.push("hero animates under reduced-motion: "+heroAnim);
+ }
  const mission=win.getComputedStyle(d.querySelector(".mission-section")).backgroundColor;
  const demo=win.getComputedStyle(d.querySelector(".demo-section")).backgroundColor;
  if(mission!=="rgb(232, 230, 223)")problems.push("mission bg: "+mission);
  if(demo!=="rgb(46, 66, 84)")problems.push("demo bg: "+demo);
  document.querySelector("#result").textContent="__AUDIT_RESULT__"+JSON.stringify({
   width,viewport,scroll,font:computed.fontFamily,fontSize:computed.fontSize,
-  mission,demo,sections:d.querySelectorAll("main > section").length,problems
+  mission,demo,motionMode:isReduced?"reduced":"standard",motionReady,motionStatic,
+  sections:d.querySelectorAll("main > section").length,problems
  });
 } catch(e){
  document.querySelector("#result").textContent="__AUDIT_RESULT__"+
@@ -99,11 +122,12 @@ server.listen(0,"127.0.0.1");
 await once(server,"listening");
 const port=server.address().port;
 
-async function runChrome(width){
+async function runChrome(width,reduced=false){
  const url="http://127.0.0.1:"+port+"/__audit?width="+width;
  const args=["--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage",
  "--no-first-run","--no-default-browser-check","--window-size=1480,1050",
  "--virtual-time-budget=6000","--dump-dom",url];
+ if(reduced)args.splice(1,0,"--force-prefers-reduced-motion=reduce");
  const proc=spawn(chrome,args,{stdio:["ignore","pipe","pipe"]});
  let stdout="",stderr="";
  proc.stdout.on("data",d=>stdout+=d);
@@ -126,8 +150,13 @@ try {
   console.log(JSON.stringify(result));
   if(result.problems.length)bad++;
  }
+ for(const width of [390,1440]){
+  const result=await runChrome(width,true);
+  console.log(JSON.stringify(result));
+  if(result.problems.length)bad++;
+ }
 } finally {server.close();}
 if(bad){
- console.error("Layout smoke: "+bad+"/"+widths.length+" viewports flagged");
+ console.error("Layout/motion smoke: "+bad+"/"+(widths.length+2)+" viewports flagged");
  process.exitCode=1;
-}else console.log("Layout smoke: five real Chromium viewport checks passed");
+}else console.log("Layout/motion smoke: five standard and two reduced-motion Chromium checks passed");
