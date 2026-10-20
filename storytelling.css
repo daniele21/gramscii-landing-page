@@ -225,3 +225,37 @@
   .proof-node, .proof-stage, .proof-node.is-active .proof-node-symbol { animation: none !important; transition: none !important; }
   .hero-ascii-signal { animation: none !important; }
 }
+
+/* V3 — reviewed against actual settled desktop and phone captures.
+   The ASCII trace should be identifiable in the negative space above the
+   product preview, never behind the text or obscuring any interaction. */
+.hero-ascii-signal {
+  top: -72px;
+  right: 12px;
+  width: 64%;
+  color: #8fb4cf;
+  opacity: .48;
+}
+.proof-stage { opacity: 1; }
+.proof-stage.is-active h3 { color: #f5f8fc; }
+@media (prefers-reduced-motion: no-preference) {
+  /* High contrast at every frame: do not tween a light selected card and
+     its dark type separately, which used to create transient low contrast. */
+  .proof-node {
+    transition: border-color .28s ease, box-shadow .28s ease;
+  }
+}
+@media (max-width: 800px) {
+  .hero-visual {
+    min-width: 0;
+    width: 100%;
+  }
+}
+@media (max-width: 560px) {
+  .hero-ascii-signal {
+    top: -28px;
+    right: 0;
+    width: 65%;
+    opacity: .32;
+  }
+}
