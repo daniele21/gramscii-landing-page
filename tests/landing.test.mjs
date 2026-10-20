@@ -47,7 +47,7 @@ test("landing has meaningful navigation, heading and key sections", () => {
 
 test("demo is explicitly labelled as fictional, and local mode is qualified", () => {
   assert.match(html, /Esempio illustrativo con dati fittizi/);
-  assert.match(html, /senza costi API per l'inferenza/);
+  assert.match(html, /Nessun costo API per l’inferenza locale|senza costi API per l'inferenza/);
   assert.match(html, /Ricerca sul web.*richiedono connettività/);
   assert.match(html, /la conformità dipende/);
 });
@@ -114,7 +114,7 @@ test("brand dark theme preserves original Gramscii palette and typographic ident
 
 test("no fabricated absolute privacy or compliance promises are on the landing", () => {
   assert.doesNotMatch(html, /GDPR compliant by default|sempre compliant|nessun dato nel cloud, mai/i);
-  assert.match(html, /può restare sul computer|sul tuo dispositivo nella modalità completamente locale/i);
+  assert.match(html, /Nella modalità completamente locale, non devi inviare i documenti a servizi AI esterni/i);
   assert.match(html, /documenti fittizi/i);
 });
 
