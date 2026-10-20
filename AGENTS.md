@@ -10,3 +10,5 @@
 - Keep the hosted `quality.yml` job until the Mac status has been successfully demonstrated for the same commit and coverage.
 - Do not dispatch untrusted fork commits to a Mac runner, download models or publish from local-test.sh.
 - Never expose tokens or other secrets; onboarding instructions live in the README and https://github.com/daniele21/local-runner-infra/blob/main/docs/integration-guide.md.
+
+- For landing animation edits, follow `.agents/skills/gramscii-motion-design/SKILL.md`: progressive enhancement, restrained editorial motion, reduced-motion support, no runtime CDN/dependencies.
