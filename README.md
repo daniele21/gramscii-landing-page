@@ -79,10 +79,13 @@ A green *dispatch* check only means the request was delivered. It does
 Mac lane has been verified. Both now call the **same** source-owned
 `.github/ci/local-test.sh`, so there is one validation definition.
 
-Current state (2026-10-20): source workflow and script committed; hosted
-validation passed, but local dispatch is **blocked by missing secret** and
-central runner allowlist approval. No successful Mac validation has yet
-been claimed. Full operating policy:
+Current state (2026-10-20): central allowlist PR #1 is merged,
+and the source dispatch to `local-runner-infra` was successfully delivered
+after adding the token. A green source dispatch is not the Mac test result:
+verify the `local-ci/mac` status for the exact source SHA and inspect
+central job logs before asserting that local CI passed. The existing hosted
+quality workflow remains a required reference until equivalent Mac evidence
+is confirmed. Full operating policy:
 [shared runner integration guide](https://github.com/daniele21/local-runner-infra/blob/main/docs/integration-guide.md).
 
 ## Strategia narrativa e scope dei messaggi
