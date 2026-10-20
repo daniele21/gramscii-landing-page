@@ -42,6 +42,45 @@ La V3 mantiene un **tema scuro** in tutte le sezioni, derivando il contrasto da 
 
 DA FINALIZZARE: sostituire il monogramma [::] e il favicon [g] con gli asset ufficiali del brand, dopo approvazione del team. La grafica ASCII è un'interpretazione coerente con l'identità, non una riproduzione dell'asset proprietario. L'anteprima hero è illustrativa e usa documenti fittizi, coerenti con gli esempi della demo.
 
+## Local CI on shared Mac runners
+
+This repository follows the **same shared Mac CI contract as Korgis and
+RedactGuard**. The versioned `.github/ci/local-test.sh` runs fast,
+deterministic Node >=20 checks on a macOS ARM64 runner hosted by
+[daniele21/local-runner-infra](https://github.com/daniele21/local-runner-infra).
+The `.github/workflows/local-ci.yml` dispatcher runs briefly on
+GitHub-hosted Ubuntu and sends the exact source SHA; **the actual tests run
+on the Mac**.
+
+To enable this new source repository:
+
+1. Review and merge the [central trust-allowlist PR](https://github.com/daniele21/local-runner-infra/pull/1).
+2. Set `CENTRAL_DISPATCH_TOKEN` as a repository Actions secret for
+   `daniele21/gramscii-landing-page`. Use a dedicated fine-grained token
+   that is allowed to dispatch to `daniele21/local-runner-infra`;
+   never paste tokens in chat or commit them.
+   On your trusted workstation run:
+   
+       gh secret set CENTRAL_DISPATCH_TOKEN -R daniele21/gramscii-landing-page
+
+3. In the central repo, ensure its existing `CENTRAL_SOURCE_TOKEN` can
+   read this source repository and write **commit statuses**.
+4. Confirm one of the central Mac runners is online and has Node >=20.
+5. Push a trusted commit or manually dispatch local-ci.yml. Inspect
+   `local-ci/mac` on that exact commit and the central workflow logs.
+
+A green *dispatch* check only means the request was delivered. It does
+**not** mean the Mac tests ran or passed. The original
+`.github/workflows/quality.yml` is intentionally kept until the shared
+Mac lane has been verified. Both now call the **same** source-owned
+`.github/ci/local-test.sh`, so there is one validation definition.
+
+Current state (2026-10-20): source workflow and script committed; hosted
+validation passed, but local dispatch is **blocked by missing secret** and
+central runner allowlist approval. No successful Mac validation has yet
+been claimed. Full operating policy:
+[shared runner integration guide](https://github.com/daniele21/local-runner-infra/blob/main/docs/integration-guide.md).
+
 ## Nota sulla correttezza delle promesse
 
 - La demo è dichiaratamente fittizia: nessun output proviene dal sistema Gramscii. Il contenuto è in src/content.js.
