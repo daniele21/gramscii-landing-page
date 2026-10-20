@@ -19,12 +19,12 @@ Il comando esegue test unitari e controlli sintattici con Node.js, senza install
 ## Contenuti
 
 - Hero centrata sul controllo dei dati.
-- Tre valori: locale e privata, fonti verificabili, indipendenza dal cloud.
+- Quattro benefici: privacy locale, fonti verificabili, funzionamento offline e adattamento al lavoro.
 - Tre scenari di demo interattivi con citazioni cliccabili e vista del passaggio originale.
 - Switch che distingue inferenza locale da funzionalità con servizi esterni.
 - Casi d'uso, tecnologia, FAQ e invito a contattare il team tramite LinkedIn.
 
-## Design system — Soft Hybrid (V2)
+## Design system — Dark Contrast (V3)
 
 I token sono ripresi dal materiale esistente Gramscii (laboratorio ASCII):
 - Ink: #0d0f12
@@ -34,9 +34,11 @@ I token sono ripresi dal materiale esistente Gramscii (laboratorio ASCII):
 - Blue: #8fb4cf
 - Steel: #5a7e9a
 
-Il wordmark mantiene Bodoni/Didot, mentre i titoli e i testi usano una sans morbida: preferenza Manrope con fallback locali (Avenir Next, Nunito Sans, Segoe UI). Il monospace resta per micro-label, dettagli ASCII e metadati. Non vengono caricati font di terze parti.
+La V3 mantiene un **tema scuro** in tutte le sezioni, derivando il contrasto da tonalità originali del brand: ink antracite, superfici charcoal e navy, accenti ghiaccio e teal. Solo il documento delle fonti nella demo e la fascia economica sono deliberatamente molto chiare per guidare la lettura.
 
-La V2 usa sezioni chiare derivate da bone/ice/blue, una sezione privacy navy ad alto contrasto, card arrotondate (22–28px) e un mockup di risposta con link alla fonte già nella hero. I valori cromatici ufficiali del laboratorio ASCII rimangono i riferimenti; le superfici secondarie sono variazioni tonali, non una nuova palette.
+**Tipografia:** wordmark e titoli Bodoni/Didot con fallback Georgia; microcopy, navigazione, CTA, metadata e source-chip in monospace SF Mono/Menlo/Consolas. I paragrafi usano una sans neutra Helvetica Neue/Segoe UI/Arial, non una rounded/friendly. Nessun font viene caricato da terze parti.
+
+**Componenti:** card dark con tonalità differenziate, bordi contrastati, angoli controllati di 9–18px (non grandi pillole), demo con fondo scuro e documenti originali bone/ice ad alto contrasto. Foglio di stile di riferimento: `brand-dark.css` caricato dopo `styles.css` per la V3. I token corrispondono al laboratorio ASCII senza introdurre una nuova palette.
 
 DA FINALIZZARE: sostituire il monogramma [::] e il favicon [g] con gli asset ufficiali del brand, dopo approvazione del team. La grafica ASCII è un'interpretazione coerente con l'identità, non una riproduzione dell'asset proprietario. L'anteprima hero è illustrativa e usa documenti fittizi, coerenti con gli esempi della demo.
 
