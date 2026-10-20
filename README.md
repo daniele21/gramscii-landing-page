@@ -133,22 +133,23 @@ La palette e la tipografia non cambiano con questa revisione: tema dark con Bodo
 - L'esecuzione locale non implica automaticamente conformità al GDPR o all'AI Act.
 - Non ci sono cookie di analytics, tracker né moduli che raccolgono dati.
 
-## Pubblicazione
+## Visualizzazione locale
 
-Il sito è completamente statico ed è ospitabile su GitHub Pages, Netlify, Vercel o altri servizi. Il deploy automatico previsto per questo repository usa **GitHub Actions**, non «Deploy from a branch». L'owner deve scegliere Settings → Pages → **Source: GitHub Actions**.
+Il sito è statico e si può visualizzare direttamente sul Mac, senza pubblicazione e senza installare dipendenze npm. In una cartella che contiene questo repository:
 
-Prima del lancio: asset ufficiali, revisione legale dei claim, output reali del prodotto e un canale di contatto commerciale definitivo.
+```bash
+git status
+git switch main
+git pull --ff-only origin main
+python3 -m http.server 4173
+```
+
+Apri http://localhost:4173 nel browser. Se la porta 4173 è già occupata, ferma il vecchio server con `Ctrl+C` nel relativo Terminale prima di ripartire. Verifica che il Terminale sia nella cartella giusta (`pwd`) e che il branch corrente sia `main` (`git branch --show-current`). Prima di cambiare branch, conserva eventuali modifiche locali: `git switch` può rifiutare l'operazione se ci sono modifiche non salvate.
+
+**Nota:** un merge su GitHub non aggiorna automaticamente una copia locale. Un tab `file://`, un'anteprima locale avviata da un'altra cartella o una pagina in cache potrebbero continuare a mostrare la versione precedente. Nessun deploy pubblico è necessario per questa modalità.
+
+Prima di un eventuale lancio pubblico: asset ufficiali, revisione legale dei claim, output reali del prodotto e un canale di contatto commerciale definitivo.
 
 ## Checklist manuale
 
 Oltre a npm test, verificare browser desktop e mobile (320px–1440px), interazioni da tastiera, screen reader, animazioni ridotte, correttezza dei link esterni e leggibilità dei testi.
-
-## Pubblicazione della landing (GitHub Pages)
-
-La verifica CI e la pubblicazione sono due passaggi diversi: un merge su `main` aggiorna il codice, **non** un'anteprima HTML aperta da un vecchio file locale o una copia servita da altri hosting.
-
-Il workflow `.github/workflows/deploy-pages.yml` esegue i test Node e l'audit Chromium, include solo gli asset pubblici necessari e pubblica su GitHub Pages a ogni push su `main`, se GitHub Pages è stato attivato.
-
-**Attivazione iniziale (owner):** aprire `https://github.com/daniele21/gramscii-landing-page/settings/pages` e scegliere **Build and deployment → Source → GitHub Actions**. Il workflow di deploy può poi essere riavviato manualmente da Actions; l'URL standard del progetto è `https://daniele21.github.io/gramscii-landing-page/`, salvo domini personalizzati.
-
-Per diagnosticare una pagina vecchia, controllare prima l'URL visualizzato: un tab locale `file://`, `localhost`, una pagina di anteprima o un dominio esterno non viene aggiornato da GitHub Pages. Un semplice refresh forzato aiuta solo se il deploy è già avvenuto su quel dominio.
