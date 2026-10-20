@@ -1,0 +1,227 @@
+
+/* Editorial Motion V2 / Source Trace.
+   Sequential evidence narrative, not simulated live inference or scroll-jacking. */
+.proof-journey {
+  display: grid;
+  grid-template-columns: minmax(0, 1.09fr) minmax(0, .91fr);
+  align-items: start;
+  gap: clamp(32px, 5.7vw, 86px);
+  margin: clamp(42px, 6vw, 82px) 0 clamp(50px, 7vw, 96px);
+}
+.proof-scene {
+  position: sticky;
+  top: 111px;
+  min-width: 0;
+  border: 1px solid #789caf;
+  border-radius: 16px;
+  overflow: hidden;
+  color: #e8e6df;
+  background: radial-gradient(ellipse at 50% 38%, #294b60 0%, #1a3443 45%, #122430 100%);
+  box-shadow: 0 22px 55px rgba(3, 12, 19, .22);
+}
+.proof-scene-top,
+.proof-scene-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #c9e2ed;
+  font: 500 .69rem/1.5 var(--brand-mono);
+  letter-spacing: .055em;
+}
+.proof-scene-top { padding: 17px 21px; border-bottom: 1px solid #456577; }
+.proof-scene-led { display: inline-flex; align-items: center; gap: 8px; }
+.proof-scene-led i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #95c2b7;
+  box-shadow: 0 0 0 4px rgba(149,194,183,.13);
+}
+.proof-scene-core {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(24px, 3vw, 44px) 24px 28px;
+}
+.proof-scene-grid {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: linear-gradient(#8fb4cf11 1px, transparent 1px),
+    linear-gradient(90deg, #8fb4cf11 1px, transparent 1px);
+  background-size: 29px 29px;
+  opacity: .66;
+  mask-image: radial-gradient(ellipse, black 15%, transparent 75%);
+}
+.proof-nodes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  padding-block: 18px 34px;
+}
+.proof-node {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 135px;
+  padding: 19px 8px 14px;
+  background: rgba(10, 27, 39, .76);
+  border: 1px solid #527184;
+  border-radius: 11px;
+  color: #bfd4e0;
+  text-align: center;
+}
+.proof-node-symbol {
+  font: 400 clamp(1.25rem, 2vw, 1.8rem)/1.3 var(--brand-mono);
+  color: #8db6cc;
+  letter-spacing: -.09em;
+}
+.proof-node-name {
+  color: #d3e4eb;
+  font: 600 .72rem/1.28 var(--brand-mono);
+  letter-spacing: .015em;
+}
+.proof-node small {
+  font: 500 .65rem/1.25 var(--brand-mono);
+  color: #a4becc;
+}
+.proof-connector {
+  color: #9bbdcb;
+  font: 500 .75rem/1.2 var(--brand-mono);
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+.proof-node.is-active {
+  color: #0d202a;
+  background: #cfe3f2;
+  border-color: #e8f4fa;
+  box-shadow: 0 0 0 3px #cfe3f21c, 0 8px 24px #030e18a8;
+}
+.proof-node.is-active .proof-node-symbol,
+.proof-node.is-active .proof-node-name { color: #17384b; }
+.proof-node.is-active small { color: #345b6e; }
+.proof-scene-readout {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid #527184;
+  padding-top: 16px;
+  font: 500 .74rem/1.5 var(--brand-mono);
+  color: #bfd6e1;
+  letter-spacing: .02em;
+}
+.proof-scene-readout strong { color: #e8f4fa; font-weight: 600; }
+.proof-scene-index { color: #a8cfde; }
+.proof-scene-foot {
+  border-top: 1px solid #456577;
+  padding: 15px 21px;
+  font-size: .65rem;
+  color: #adcbd9;
+}
+.proof-stages { min-width: 0; }
+.proof-stage {
+  padding: 29px 14px 44px 31px;
+  border-left: 2px solid #627f90;
+  min-height: 230px;
+  opacity: .71;
+}
+.proof-stage + .proof-stage { margin-top: 8px; }
+.proof-stage:first-child { padding-top: 15px; }
+.proof-stage.is-active {
+  opacity: 1;
+  border-left-color: #d2e9f5;
+}
+.proof-stage-index {
+  display: block;
+  margin-bottom: 15px;
+  font: 600 .73rem/1.5 var(--brand-mono);
+  letter-spacing: .09em;
+  color: #bfdbe8;
+}
+.proof-stage h3 {
+  font: 400 clamp(1.55rem, 2.2vw, 2.2rem)/1.22 var(--reading-serif);
+  color: #e8e6df;
+  letter-spacing: -.022em;
+  margin-bottom: 14px;
+}
+.proof-stage p {
+  font-size: .99rem;
+  line-height: 1.73;
+  color: #c6dae4;
+  max-width: 49ch;
+  margin: 0;
+}
+
+/* A brand-specific, decorative ASCII wave rather than a generative AI orb.
+   The JavaScript animator renders at a capped rate and only while visible. */
+.hero-visual { isolation: isolate; }
+.hero-ascii-signal {
+  pointer-events: none;
+  user-select: none;
+  position: absolute;
+  z-index: 0;
+  top: 6%;
+  right: -5%;
+  margin: 0;
+  width: 70%;
+  overflow: hidden;
+  font: 500 .73rem/1.4 var(--brand-mono);
+  letter-spacing: .15em;
+  white-space: pre;
+  color: #82b0cc;
+  opacity: .58;
+  text-shadow: 0 0 20px rgba(143,180,207,.22);
+  mask-image: radial-gradient(ellipse at 58% 45%, black 13%, transparent 77%);
+}
+.hero .preview-window { position: relative; z-index: 1; }
+.hero .preview-proof { z-index: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .proof-node { transition: background-color .38s ease, border-color .38s ease, box-shadow .38s ease, color .38s ease; }
+  .proof-stage { transition: opacity .33s ease, border-color .33s ease; }
+  .proof-node.is-active .proof-node-symbol { animation: gramscii-trace-pulse .5s cubic-bezier(.22,1,.36,1) both; }
+}
+@keyframes gramscii-trace-pulse {
+  from { opacity: .5; transform: scale(.93); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (max-width: 960px) {
+  .proof-journey { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  .proof-scene { position: relative; top: auto; }
+  .proof-stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .proof-stage, .proof-stage:first-child {
+    padding: 18px 14px 18px 17px;
+    min-height: 0;
+    margin: 0;
+    border-left-width: 2px;
+  }
+  .proof-stage + .proof-stage { margin: 0; }
+  .proof-stage h3 { font-size: 1.46rem; }
+  .proof-stage p { font-size: .89rem; }
+}
+@media (max-width: 650px) {
+  .proof-journey { gap: 19px; margin-block: 36px 51px; }
+  .proof-scene-top { padding: 13px 14px; }
+  .proof-scene-top, .proof-scene-led, .proof-scene-foot { font-size: .58rem; }
+  .proof-scene-core { padding: 18px 13px 16px; }
+  .proof-nodes { gap: 4px; grid-template-columns: minmax(0,1fr) 10px minmax(0,1fr) 10px minmax(0,1fr); padding: 11px 0 22px; }
+  .proof-node { min-height: 99px; padding: 12px 4px 10px; gap: 6px; }
+  .proof-node-symbol { font-size: 1.13rem; }
+  .proof-node-name { font-size: .61rem; }
+  .proof-node small { font-size: .57rem; }
+  .proof-connector { font-size: .6rem; letter-spacing: -.2em; }
+  .proof-scene-readout { padding-top: 13px; font-size: .63rem; }
+  .proof-scene-foot { padding: 12px; gap: 4px; }
+  .proof-stages { grid-template-columns: 1fr; gap: 7px; }
+  .proof-stage, .proof-stage:first-child { padding: 12px 12px 13px 19px; }
+  .proof-stage h3 { font-size: 1.46rem; margin-bottom: 7px; }
+  .proof-stage p { font-size: .94rem; line-height: 1.64; }
+  .hero-ascii-signal { right: -2%; width: 88%; font-size: .62rem; opacity: .4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .proof-node, .proof-stage, .proof-node.is-active .proof-node-symbol { animation: none !important; transition: none !important; }
+  .hero-ascii-signal { animation: none !important; }
+}
