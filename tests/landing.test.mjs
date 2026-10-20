@@ -5,6 +5,7 @@ import { scenarios } from "../src/content.js";
 
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
+const softTheme = readFileSync(new URL("../soft-theme.css", import.meta.url), "utf8");
 const js = readFileSync(new URL("../src/app.js", import.meta.url), "utf8");
 
 test("every demo citation points to a real excerpt in its own scenario", () => {
@@ -82,4 +83,26 @@ test("all local dependencies referenced in head exist", () => {
   for (const path of ["index.html", "styles.css", "src/app.js", "src/content.js", "favicon.svg"]) {
     assert.ok(existsSync(new URL("../" + path, import.meta.url)), "File missing: " + path);
   }
+});
+
+test("soft-hybrid page honours Gramscii palette, gentle cards and contrasting sections", () => {
+  assert.match(html, /href="\.\/soft-theme\.css"/);
+  assert.match(html, /class="preview-window"/);
+  assert.match(html, /ANTEPRIMA ILLUSTRATIVA/);
+  assert.match(html, /value-private/);
+  assert.match(html, /value-sources/);
+  assert.match(html, /value-offline/);
+  assert.match(html, /value-tailored/);
+  assert.match(softTheme, /--paper: #f8f9f8/);
+  assert.match(softTheme, /--friendly:/);
+  assert.match(softTheme, /\.local-section\s*\{[^}]*background:/);
+  assert.match(softTheme, /\.demo-frame\s*\{[^}]*border-radius: 28px/);
+  assert.match(softTheme, /@media\(max-width:560px\)/);
+  assert.match(softTheme, /prefers-reduced-motion/);
+});
+
+test("no fabricated absolute privacy or compliance promises are on the landing", () => {
+  assert.doesNotMatch(html, /GDPR compliant by default|sempre compliant|nessun dato nel cloud, mai/i);
+  assert.match(html, /può restare sul computer|sul tuo dispositivo nella modalità completamente locale/i);
+  assert.match(html, /documenti fittizi/i);
 });
