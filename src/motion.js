@@ -16,6 +16,8 @@ export function motionAllowed() {
 
 const REVEAL_TITLES = [
   ".section-intro h2",
+  ".compare-heading h2",
+  ".compare-intro",
   ".section-intro > p:last-child",
   ".value-heading",
   ".local-copy h2",
@@ -32,6 +34,7 @@ const REVEAL_TITLES = [
 ];
 const CARD_GROUPS = [
   ".stories-grid > .story-card",
+  ".compare-grid > .compare-panel",
   ".value-grid > .value-item",
   ".case-grid > .case-card",
   ".vision-path > .vision-step"

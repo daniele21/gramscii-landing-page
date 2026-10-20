@@ -21,7 +21,7 @@ Il comando esegue test unitari e controlli sintattici con Node.js, senza install
 - **Hero:** promessa «La tua AI. Sotto il tuo controllo.», tre caratteristiche «Privata. Locale. Verificabile.» e risultato commerciale «Trova quello che conta nei tuoi documenti. Senza cercare pagina per pagina.»
 - **Demo:** tre scenari interattivi con citazioni cliccabili e passaggi originali (tutti fittizi e dichiarati).
 - **Storie quotidiane:** contratto aggiornato, file riservato, lavoro in treno senza connessione. Una quarta microstoria (verbale condominiale) esemplifica l'accessibilità.
-- **Quattro benefici:** controllo dei dati, fonti verificabili, offline e personalizzazione.
+- **Confronto outcome:** subito dopo la demo, due flussi paralleli da tre passaggi (ricerca manuale vs Gramscii) su uno stesso scenario contrattuale. Nessuna percentuale o superiorità su altri prodotti non dimostrata.
 - **Privacy:** switch che distingue inferenza locale da funzionalità con servizi esterni.
 - **Applicazioni:** contratti, report, documentazione tecnica.
 - **Mission:** rendere l'AI accessibile a tutti senza rinunciare al controllo.
@@ -47,8 +47,8 @@ Non trasformiamo Gramscii in un sito chiaro. Il fondale dominante rimane ink/nav
 
 1. **Hero:** ink `#0d0f12`.
 2. **Demo verificabile:** slate originale `#2e4254`, con workspace scuro.
-3. **Storie:** midnight `#101920`.
-4. **Quattro vantaggi:** blue-petrolio `#203b49`, card volutamente più scure del fondale.
+3. **Confronto del workflow:** blue-petrolio `#203b49`, due pannelli manuale/assistito con finale verificabile.
+4. **Storie:** midnight `#101920`.
 5. **Privacy:** antracite, con pannello dati in evidenza.
 6. **Applicazioni:** slate desaturato `#243846`.
 7. **Mission:** fascia editoriale **bone `#e8e6df`**, testo scuro.
@@ -180,3 +180,13 @@ La revisione visuale ha individuato e corretto una vera regressione mobile: una 
 Il trace a tre passaggi considera i rapporti di visibilità **di tutti** i capitoli (non solo gli ultimi cambiati) così l'indicatore rimane sincronizzato con il passaggio maggiormente visibile. Le animazioni di background dei nodi sono eliminate per prevenire transitori a basso contrasto. La trama ASCII è spostata nello spazio negativo sopra la preview, mai sul testo.
 
 Il job `visual-layout` mette a disposizione due artifacts: `gramscii-visual-review` (schermate) e `gramscii-local-preview` (solo asset statici pronti per una preview offline, **nessun deploy**). Per vedere la copia esatta dell'Actions run, scarica ed estrai il bundle, apri il Terminale nella cartella estratta e avvia `python3 -m http.server 4173`.
+
+## Confronto dei flussi di lavoro
+
+La sezione `#perche` confronta il modo in cui si verificano le differenze tra due contratti, **non Gramscii contro ChatGPT o concorrenti specifici**. Le due colonne riportano lo stesso compito con tre passaggi, una conclusione esplicita e una CTA alla demo illustrativa. La promessa è assistenza nella ricerca e consultazione delle fonti, non che la revisione umana scompaia.
+
+- `comparison.css` è indipendente e caricato dopo il resto degli stili, usa i token originali e non richiede dipendenze.
+- Desktop: due pannelli paralleli; mobile fino a 720px: card in colonna. Nessun overflow.
+- Il disclaimer evita benchmark numerici o claim di prestazioni non misurati. Il trattamento locale è qualificato alla modalità completamente locale.
+- L'intento è orientato all'outcome: perché cambiare il modo di lavorare. Privacy, offline e personalizzazione rimangono trattati nelle sezioni dedicate.
+- L'audit Chromium e le schermate `comparison-1440.png` / `comparison-390.png` accompagnano la revisione responsive.

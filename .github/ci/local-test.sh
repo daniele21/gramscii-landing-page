@@ -29,6 +29,7 @@ for (const path of [
   'brand-dark.css',
   'motion.css',
   'storytelling.css',
+  'comparison.css',
   'src/app.js',
   'src/motion.js',
   'src/storytelling.js',
