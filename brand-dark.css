@@ -592,3 +592,284 @@ h2 {font-size:clamp(3rem,5.2vw,5.1rem);line-height:1.08}
   .vision-mobile { margin-left: -2px; }
   .vision-step h3 { font-size: 1.4rem; }
 }
+
+
+/*
+ * V5 — EDITORIAL READABILITY + CONTRAST RHYTHM
+ * Keep Bodoni/Didot exclusively for the wordmark. On-screen headings
+ * use robust Georgia glyphs (no external font loads); text uses the
+ * platform system sans; monospace is reserved for functional metadata.
+ * Large tonal steps across sections preserve the original dark identity.
+ */
+:root {
+  --reading-serif: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  --brand-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --page-ink: #0d0f12;
+  --page-slate: #2e4254;
+  --page-midnight: #101920;
+  --page-deep-teal: #203b49;
+  --page-bone: #e8e6df;
+  --page-ice: #cfe3f2;
+  --dark-copy: #c4d6df;
+  --light-copy: #3a4b55;
+  --readable-line: 68ch;
+}
+
+/* Legible type scale: serif for editorial headings, neutral sans for paragraphs,
+   mono >=12px for actual UI controls; tiny illustrative preview remains compact. */
+body {
+  font-family: var(--brand-sans);
+  font-size: 17px;
+  line-height: 1.72;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+h1,h2,h3, .value-item h2, .case-card h3, .story-quote, .vision-step h3 {
+  font-family: var(--reading-serif);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -.025em;
+}
+.brand-name, .preview-brand {
+  font-family: var(--brand-serif);
+  font-variant: small-caps;
+}
+h2 { font-size: clamp(2.65rem,4.25vw,4.4rem); line-height: 1.16; letter-spacing: -.024em; text-wrap: balance; }
+.hero h1 {
+  font-family: var(--reading-serif);
+  font-size: clamp(3.15rem,4.75vw,5.15rem);
+  line-height: 1.11;
+  letter-spacing: -.034em;
+  max-width: 765px;
+  text-wrap: balance;
+}
+.hero-lead, .section-intro>p:last-child {
+  font-family: var(--brand-sans);
+  font-size: 1.075rem;
+  line-height: 1.78;
+  max-width: var(--readable-line);
+}
+.section-intro>p:last-child { max-width: 59ch; }
+.local-copy p:not(.eyebrow), .tech-copy>p:not(.eyebrow), .mission-content>p, .vision-heading>p, .independence-body p {
+  max-width: var(--readable-line);
+  line-height: 1.77;
+  font-size: 1rem;
+}
+.story-quote { font-family: var(--reading-serif); font-size: clamp(1.8rem,2.3vw,2.2rem); line-height: 1.27; }
+.story-context, .story-outcome p, .case-card>p, .value-item p, .vision-step p {
+  font-family: var(--brand-sans);
+  font-size: .96rem;
+  line-height: 1.72;
+}
+.value-item h2 {
+  font-family: var(--reading-serif);
+  font-size: clamp(1.45rem,1.9vw,1.8rem);
+  line-height: 1.24;
+}
+.case-card h3 {
+  font-family: var(--reading-serif);
+  font-size: clamp(1.63rem,2vw,1.95rem);
+  line-height: 1.24;
+}
+.mission-content h2 { font-size: clamp(2.8rem,4.45vw,4.8rem); line-height: 1.17; }
+.vision-step h3 { font-family: var(--reading-serif); font-size: 1.83rem; line-height: 1.25; }
+.faq-list summary { font-size: 1rem; line-height: 1.55; }
+.faq-list details p { font-size: 1rem; line-height: 1.75; max-width: var(--readable-line); }
+
+.eyebrow, .small-label, .hero .eyebrow, .value-index, .value-heading p,
+.story-number, .story-outcome>span, .stories-disclaimer,
+.vision-step-index, .vision-footer>span, .mission-aside-label,
+.terminal-title, .terminal-bottom {
+  font-family: var(--brand-mono);
+  font-size: .75rem;
+  line-height: 1.6;
+  letter-spacing: .075em;
+}
+.nav a {
+  font-family: var(--brand-mono);
+  font-size: .79rem;
+  line-height: 1.4;
+}
+.button, .text-link, .case-action, .story-action,
+.demo-tabs button, .source-link, .mode-btn {
+  font-family: var(--brand-mono);
+  font-size: .83rem;
+  line-height: 1.4;
+}
+.button { min-height: 51px; font-weight: 600; }
+.story-action { min-height: 50px; font-size: .79rem; }
+.hero-notes, .hero-bottom, .demo-footer, .toolbar-context {
+  font-family: var(--brand-mono);
+  font-size: .76rem;
+  line-height: 1.55;
+}
+.preview-caption { font-size: .7rem; line-height: 1.55; color: #c4d6df; }
+.preview-response-label { font-size: .69rem; }
+.preview-response p { font-size: .91rem; }
+.preview-source { font-size: .73rem; line-height: 1.45; }
+.preview-source small { font-size: .69rem; }
+.preview-files span { font-size: .64rem; }
+.preview-local { font-size: .68rem; }
+.preview-proof strong { font-size: .72rem; }
+.preview-proof div>span { font-size: .68rem; }
+.preview-question { font-size: .83rem; }
+.file-pill, .demo-toolbar-status, .document-topline, .document-eyebrow { font-size: .75rem; }
+.finding p, .inspector-footnote p { font-size: .92rem; }
+.demo-question p, .demo-summary { font-size: 1rem; }
+.document-sheet p { font-size: 1rem; line-height: 1.77; }
+.diagram-node small { font-size: .77rem; }
+.diagram-note, .note-caution { font-size: .8rem; }
+.nav .nav-cta { font-size: .78rem; }
+
+/* Palette rhythm: ink / slate / ink / deep teal / ink / slate / bone /
+   navy / ice / ink / slate / deep ink. No consumer pastel theme. */
+.hero {
+  background: radial-gradient(ellipse at 78% 35%,rgba(46,66,84,.4),transparent 52%),#0d0f12;
+  border-bottom: 2px solid #66889c;
+}
+.demo-section {
+  background: var(--page-slate);
+  border-top: 1px solid #63849a;
+  border-bottom: 2px solid #89abc0;
+}
+.demo-section .section-intro h2, .demo-section .section-intro h2 em { color: #f1f2ee; }
+.demo-section .section-intro h2 em { color: var(--ice); }
+.demo-section .section-intro>p:last-child, .demo-section .intro-split>p:last-child { color: #d1e0e7; }
+.demo-frame { background: #13232d; border-color: #91b3c7; box-shadow: 0 25px 80px rgba(5,14,20,.36); }
+
+.stories-section { background: var(--page-midnight); border-top: 0; border-bottom: 2px solid #678da2; }
+.stories-intro>p:last-child { color: #c4d6df; }
+.story-card { background: #263e4d; border-color: #5a798b; }
+.story-card-privacy { background: #1e3c39; border-color: #63867d; }
+.story-card-offline { background: #303d52; border-color: #7087a1; }
+.story-context { color: #d3e0e6; }
+.story-card .story-number { color: #cfe3f2; }
+.story-outcome>span { color: #c6e4d5; }
+.stories-disclaimer { color: #bed0d8; }
+
+.value-strip { background: var(--page-deep-teal); border-top: 0; border-bottom: 2px solid #668b9c; }
+.value-heading p { color: #c8dbe2; }
+.value-item.value-private { background: #112735; border-color: #6289a0; }
+.value-item.value-sources { background: #142f2d; border-color: #62887a; }
+.value-item.value-offline { background: #182334; border-color: #6b809b; }
+.value-item.value-tailored { background: #222b34; border-color: #6d838d; }
+.value-item p { color: #d0dce2; }
+.value-index { color: #a6c9d8; }
+
+.local-section {
+  background: #0d1014;
+  border: 0;
+  border-top: 2px solid #7fa6b7;
+  border-bottom: 2px solid #506d7e;
+  border-radius: 0;
+  margin: 0;
+}
+.local-copy p:not(.eyebrow) { color: #c5d6de; }
+.local-illustration { background: #1b303d; border-color: #7396aa; }
+.diagram-device { border-color: #668c9e; }
+
+.adaptability { background: #243846; border-top: 0; border-bottom: 2px solid #89aabc; }
+.adaptability .section-intro>p:last-child { color: #c8dce4; }
+.case-card { background: #12232d; border-color: #7090a1; }
+.case-card:nth-child(2) { background: #16312f; border-color: #739589; }
+.case-card:nth-child(3) { background: #1d2937; border-color: #788b9f; }
+.case-card>p { color: #ccdae2; }
+
+/* A single intentional bone editorial page break: the MISSION is now
+   instantly distinct without adopting an overall light appearance. */
+.mission-section {
+  background: var(--page-bone);
+  border: 0;
+  color: var(--page-ink);
+}
+.mission-aside { border-right-color: rgba(46,66,84,.25); }
+.mission-aside .eyebrow, .mission-aside-label { color: #465d6b; }
+.mission-mark { color: #5a7e9a; }
+.mission-content h2 { color: #0d0f12; }
+.mission-content h2 em { color: #2e4254; }
+.mission-content>p, .mission-content .mission-lead { color: #293c49; }
+.mission-everyday {
+  background: #d8e4e9;
+  border-color: #a6beca;
+}
+.mission-everyday strong, .mission-everyday-marker { color: #234e63; }
+.mission-everyday p { color: #3a4b55; }
+
+/* Vision becomes the dark complement of the editorial mission page. */
+.vision-section { background: #172b37; border-top: 2px solid #597989; border-bottom: 2px solid #779daf; }
+.vision-heading>p { color: #d0dce3; }
+.vision-step { background: #284452; border-color: #7395a6; }
+.vision-step:nth-child(2) { background: #233d4b; }
+.vision-step-future { background: #1d3540; border-color: #a4bdc9; }
+.vision-step p { color: #d0dce3; }
+.vision-footer p { color: #c6dbe3; }
+.vision-footer>span { color: #c6dbe3; }
+
+.independence {
+  background: var(--page-ice);
+  border-top: 2px solid #8fb4cf;
+  border-bottom: 2px solid #8fb4cf;
+}
+.independence h2, .independence-body p { color: #172b39; }
+.independence .eyebrow { color: #3d6278; }
+.independence-body p.small-note { color: #3c596a; }
+.tech-section { background: #0d1117; border-top: 0; border-bottom: 2px solid #607f91; }
+.tech-copy>p:not(.eyebrow) { color: #ccdae1; }
+.faq-section { background: var(--page-slate); border-top: 0; border-bottom: 2px solid #84a5b7; }
+.faq-list details p { color: #c4d6df; }
+.closing { background: #10232e; border: 1px solid #5b8093; margin-block: 30px; }
+
+/* Non-text UI controls: stronger focus and outlines than the prior muted edges. */
+.button-quiet { border-color: #89afc2; }
+.button-quiet:focus-visible, .button-primary:focus-visible,
+.nav a:focus-visible, .story-action:focus-visible, .source-link:focus-visible {
+  outline: 3px solid #cfe3f2;
+  outline-offset: 4px;
+}
+.mission-section :focus-visible, .independence :focus-visible {
+  outline-color: #2e4254;
+}
+
+@media (max-width: 1120px) {
+  .hero h1 { font-size: clamp(3rem,4.75vw,4.6rem); }
+  .value-item h2 { font-size: 1.55rem; }
+}
+@media (max-width: 800px) {
+  .hero h1 { font-size: clamp(3.1rem,7.7vw,4.45rem); }
+  .mission-aside { border-right: 0; border-bottom: 1px solid rgba(46,66,84,.24); }
+  .stories-grid { gap: 16px; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; line-height: 1.69; }
+  h2 { font-size: clamp(2.3rem,9vw,3rem); line-height: 1.18; }
+  .hero h1 { font-size: clamp(2.55rem,10.1vw,3.2rem); line-height: 1.15; letter-spacing: -.023em; }
+  .hero-lead, .section-intro>p:last-child { font-size: 1rem; }
+  .story-quote { font-size: 1.85rem; }
+  .mission-content h2, .vision-heading h2, .local-section h2 { font-size: clamp(2.35rem,9.4vw,3.1rem); line-height: 1.18; }
+  .value-item h2 { font-size: 1.22rem; line-height: 1.25; }
+  .value-item p { font-size: .84rem; line-height: 1.58; }
+  .eyebrow, .small-label, .hero .eyebrow { font-size: .72rem; }
+  .hero-notes { font-size: .73rem; }
+  .value-index, .story-number, .vision-step-index, .story-outcome>span { font-size: .7rem; }
+  .story-context, .story-outcome p, .case-card>p, .vision-step p { font-size: .91rem; }
+  .preview-files span { font-size: .59rem; }
+  .preview-local { font-size: .57rem; }
+  .preview-question { font-size: .77rem; }
+  .preview-response-label { font-size: .64rem; }
+  .preview-response p { font-size: .85rem; }
+  .preview-source { font-size: .64rem; }
+  .preview-source small { font-size: .59rem; }
+  .preview-caption { font-size: .6rem; }
+  .preview-proof strong { font-size: .62rem; }
+  .preview-proof div>span { font-size: .61rem; }
+  .demo-tabs button, .source-link, .mode-btn { font-size: .77rem; }
+  .vision-step p { font-size: .84rem; }
+  .closing { margin-inline: 9px; }
+  .nav a { font-size: .84rem; }
+}
+@media (max-width: 390px) {
+  .hero h1 { font-size: 2.55rem; }
+  .value-item h2 { font-size: 1.15rem; }
+  .preview-files span { font-size: .55rem; }
+  .preview-source { font-size: .59rem; }
+}
