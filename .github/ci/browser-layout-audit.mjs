@@ -32,7 +32,7 @@ try {
  if(viewport>width+1||viewport<width-20)problems.push("iframe viewport beyond scrollbar allowance: "+viewport+" / "+width);
  if(scroll>viewport+3)problems.push("document horizontal scroll: "+(scroll-viewport)+"px");
  const core=[".site-header",".hero h1",".demo-frame",".stories-grid",".value-grid",
- ".local-illustration",".case-grid",".mission-content",".vision-path",".faq-list"];
+ ".local-illustration",".case-grid",".mission-content",".vision-path",".faq-list",".proof-scene",".proof-stages"];
  for(const selector of core){
   const el=d.querySelector(selector);
   if(!el){problems.push("missing "+selector);continue;}
@@ -52,6 +52,16 @@ try {
     if(problems.length>30)break;
    }
  }
+ const proofScene=d.querySelector("[data-proof-scene]");
+ const proofSteps=d.querySelectorAll("[data-proof-step]");
+ const ascii=d.querySelector(".hero-ascii-signal");
+ if(proofSteps.length!==3)problems.push("source-trace story does not have 3 steps");
+ if(!proofScene||proofScene.dataset.activeStep===undefined)
+   problems.push("proof scene not initialized");
+ if(!ascii||ascii.textContent.trim().length<20)
+   problems.push("ASCII hero field missing or empty");
+ if(isNaN(Number.parseFloat(win.getComputedStyle(d.querySelector(".proof-scene")).width)))
+   problems.push("source-trace scene has invalid width");
  const heading=d.getElementById("hero-heading");
  const computed=win.getComputedStyle(heading);
  if(!computed.fontFamily.includes("Georgia"))problems.push("heading font: "+computed.fontFamily);
