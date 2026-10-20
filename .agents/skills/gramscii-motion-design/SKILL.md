@@ -49,3 +49,11 @@ Only in a later experiment if user testing demonstrates need for multi-step pinn
 - Desktop: the framed schema uses `position: sticky` as the browser scrolls alongside the prose, but never pins or intercepts scroll input. At <=960px the panel becomes normal flow; small screens stack each chapter vertically.
 - Hero: an aria-hidden, decorative ASCII sine wave draws at <=10fps only when visible, ceases work offscreen or on a hidden page, and freezes under reduced motion. No network, no user data, no canvas, no telemetry.
 - Tests assert the chapter selection and backward scrolling logic, animation lifecycle, reduced motion, layout and no overflow.
+
+## Review rule: trust settled screenshots, not transient CSS animation frames
+
+- Automated screenshot capture must wait for the visual composition to settle and explicitly bypass temporary CSS entrance opacity. A blank hero in a QA screenshot is **not** evidence of a well-rendered page.
+- Every desktop-to-mobile grid override must be checked on 320, 390 and 768px; reject any hero preview that overlaps main copy.
+- Select the source-trace chapter from persisted visibility ratios of **all** observed steps; partial IntersectionObserver callbacks are not full scene snapshots.
+- Source-trace transitions must never tween light backgrounds and text colours independently through unreadable intermediate contrast.
+- GitHub Actions may attach a small `gramscii-local-preview` static bundle for exact-version offline review; do not deploy or introduce an external host for QA.
