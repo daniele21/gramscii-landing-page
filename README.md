@@ -142,3 +142,13 @@ Prima del lancio: asset ufficiali, revisione legale dei claim, output reali del 
 ## Checklist manuale
 
 Oltre a npm test, verificare browser desktop e mobile (320px–1440px), interazioni da tastiera, screen reader, animazioni ridotte, correttezza dei link esterni e leggibilità dei testi.
+
+## Pubblicazione della landing (GitHub Pages)
+
+La verifica CI e la pubblicazione sono due passaggi diversi: un merge su `main` aggiorna il codice, **non** un'anteprima HTML aperta da un vecchio file locale o una copia servita da altri hosting.
+
+Il workflow `.github/workflows/pages.yml` esegue i test Node e l'audit Chromium, include solo gli asset pubblici necessari e pubblica su GitHub Pages a ogni push su `main`, se GitHub Pages è stato attivato.
+
+**Attivazione iniziale (owner):** aprire `https://github.com/daniele21/gramscii-landing-page/settings/pages` e scegliere **Build and deployment → Source → GitHub Actions**. Il workflow di deploy può poi essere riavviato manualmente da Actions; l'URL standard del progetto è `https://daniele21.github.io/gramscii-landing-page/`, salvo domini personalizzati.
+
+Per diagnosticare una pagina vecchia, controllare prima l'URL visualizzato: un tab locale `file://`, `localhost`, una pagina di anteprima o un dominio esterno non viene aggiornato da GitHub Pages. Un semplice refresh forzato aiuta solo se il deploy è già avvenuto su quel dominio.
