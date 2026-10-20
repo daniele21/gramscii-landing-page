@@ -168,3 +168,5 @@ Controlli: `npm test`; GitHub Actions `Landing quality` include verifiche Chromi
 ### Motion system V2 — sorgenti in movimento e firma ASCII
 
 La demo include un racconto a tre capitoli — documenti, inferenza locale (nelle configurazioni supportate) e fonte verificabile — con pannello sticky su desktop e disposizione in flusso naturale su tablet/mobile. Tutti i testi rimangono leggibili senza JavaScript; il pannello è una visualizzazione illustrativa, **non** una dimostrazione live dell'engine. La hero ospita una firma ASCII locale che si anima lentamente solo quando visibile, si interrompe fuori schermo e rispetta la riduzione del movimento. Nessun GSAP/Lenis/CDN è stato aggiunto.
+
+**Revisione visiva**: il job `visual-layout` produce quattro schermate reali Chromium (`hero-1440`, `hero-390`, `journey-1440`, `journey-390`) e le salva come artifact `gramscii-visual-review` nella GitHub Action. Questa evidenza permette il confronto umano del layout e del ritmo editoriale; gli screenshot singoli non dimostrano la fluidità delle animazioni.
