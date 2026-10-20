@@ -1,0 +1,21 @@
+name: Landing quality
+
+on:
+  push:
+    branches: [main, feat/trust-first-landing]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run zero-dependency checks
+        run: bash .github/ci/local-test.sh
