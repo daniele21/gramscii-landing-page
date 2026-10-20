@@ -14,12 +14,12 @@ if(!chrome){console.error("Chromium/Chrome missing");process.exit(2);}
 const MIME={".html":"text/html",".js":"text/javascript",".css":"text/css",".svg":"image/svg+xml"};
 
 function auditPage(width){
- return \`<!doctype html><html lang="it"><meta charset="utf-8">
-<style>html,body{margin:0;background:white}iframe{display:block;border:0;width:\${width}px;height:900px}</style>
+ return `<!doctype html><html lang="it"><meta charset="utf-8">
+<style>html,body{margin:0;background:white}iframe{display:block;border:0;width:${width}px;height:900px}</style>
 <iframe id="site" src="/index.html" title="Gramscii"></iframe>
 <pre id="result">PENDING</pre>
 <script>
-const width=\${width};
+const width=${width};
 const iframe=document.getElementById("site");
 iframe.addEventListener("load",()=>setTimeout(()=>{
 try {
@@ -74,7 +74,7 @@ setTimeout(()=>{
  if(!v.textContent.startsWith("__AUDIT_RESULT__"))
  v.textContent="__AUDIT_RESULT__"+JSON.stringify({width,problems:["audit timed out"]});
 },4600);
-</script></html>\`;
+</script></html>`;
 }
 
 const server=http.createServer((req,res)=>{
