@@ -88,7 +88,7 @@ test("ASCII respects reduced motion and provides static fallback with no observe
   const field=fakeElement();
   const doc={querySelector(){return field;},visibilityState:"visible"};
   const cleanup=initAsciiWave(doc,{
-    matchMedia(){return {matches:true};}
+    matchMedia(query){return {matches:query.includes("prefers-reduced-motion")};}
   });
   assert.equal(field.textContent.split("\n").length,9);
   assert.equal(typeof cleanup,"function");
