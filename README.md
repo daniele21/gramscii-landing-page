@@ -24,7 +24,7 @@ Il comando esegue test unitari e controlli sintattici con Node.js, senza install
 - Switch che distingue inferenza locale da funzionalità con servizi esterni.
 - Casi d'uso, tecnologia, FAQ e invito a contattare il team tramite LinkedIn.
 
-## Design system
+## Design system — Soft Hybrid (V2)
 
 I token sono ripresi dal materiale esistente Gramscii (laboratorio ASCII):
 - Ink: #0d0f12
@@ -34,9 +34,11 @@ I token sono ripresi dal materiale esistente Gramscii (laboratorio ASCII):
 - Blue: #8fb4cf
 - Steel: #5a7e9a
 
-Titoli serif Bodoni/Didot con fallback Georgia, label monospace con fallback di sistema. Non vengono caricati font di terze parti.
+Il wordmark mantiene Bodoni/Didot, mentre i titoli e i testi usano una sans morbida: preferenza Manrope con fallback locali (Avenir Next, Nunito Sans, Segoe UI). Il monospace resta per micro-label, dettagli ASCII e metadati. Non vengono caricati font di terze parti.
 
-DA FINALIZZARE: sostituire il monogramma [::] e il favicon [g] con gli asset ufficiali del brand, dopo approvazione del team. La grafica ASCII è un'interpretazione coerente con l'identità, non una riproduzione dell'asset proprietario.
+La V2 usa sezioni chiare derivate da bone/ice/blue, una sezione privacy navy ad alto contrasto, card arrotondate (22–28px) e un mockup di risposta con link alla fonte già nella hero. I valori cromatici ufficiali del laboratorio ASCII rimangono i riferimenti; le superfici secondarie sono variazioni tonali, non una nuova palette.
+
+DA FINALIZZARE: sostituire il monogramma [::] e il favicon [g] con gli asset ufficiali del brand, dopo approvazione del team. La grafica ASCII è un'interpretazione coerente con l'identità, non una riproduzione dell'asset proprietario. L'anteprima hero è illustrativa e usa documenti fittizi, coerenti con gli esempi della demo.
 
 ## Nota sulla correttezza delle promesse
 
