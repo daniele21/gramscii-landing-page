@@ -76,9 +76,14 @@ test("narrative scene uses an observer rather than scroll events and can reverse
   const cleanup=initProofJourney(doc,{IntersectionObserver:FakeObserver});
   assert.equal(observer.nodes.length,3);
   assert.equal(observer.opts.rootMargin,"-16% 0px -30% 0px");
-  observer.trigger(2);
+  observer.trigger(0,.82);
+  assert.equal(f.scene.dataset.activeStep,"0");
+  // A weakly entering chapter must not steal focus from a stronger visible one.
+  observer.trigger(2,.12);
+  assert.equal(f.scene.dataset.activeStep,"0");
+  observer.trigger(2,.92);
   assert.equal(f.scene.dataset.activeStep,"2");
-  observer.trigger(0);
+  observer.trigger(0,.96);
   assert.equal(f.scene.dataset.activeStep,"0");
   cleanup();
   assert.equal(observer.disconnected,true);
