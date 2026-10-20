@@ -162,3 +162,65 @@ test("new storytelling retains responsive dark-brand contrast and editorial font
   assert.match(darkTheme, /var\(--brand-serif\)/);
   assert.doesNotMatch(darkTheme, /Manrope|Plus Jakarta Sans/);
 });
+
+
+function relativeLuminance(hex) {
+  const channels = (hex.match(/[0-9a-f]{2}/gi) || []).map(h => Number.parseInt(h,16) / 255);
+  assert.equal(channels.length, 3, "Only six-digit sRGB hex is accepted");
+  const linear = channels.map(c => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  return linear[0] * .2126 + linear[1] * .7152 + linear[2] * .0722;
+}
+
+function textContrast(foreground, background) {
+  const light = relativeLuminance(foreground);
+  const dark = relativeLuminance(background);
+  return (Math.max(light,dark) + .05) / (Math.min(light,dark) + .05);
+}
+
+test("type hierarchy retains Bodoni in wordmark but uses sturdy on-screen heading glyphs", () => {
+  assert.match(darkTheme, /--reading-serif:\s*Georgia/);
+  assert.match(darkTheme, /\.brand-name,\s*\.preview-brand\s*\{\s*font-family:\s*var\(--brand-serif\)/);
+  assert.match(darkTheme, /h1,h2,h3,\s*\.value-item h2/);
+  assert.match(darkTheme, /font-family:\s*var\(--reading-serif\)/);
+  assert.match(darkTheme, /--brand-sans:\s*-apple-system,\s*BlinkMacSystemFont/);
+  assert.match(darkTheme, /body\s*\{\s*font-family:\s*var\(--brand-sans\);\s*font-size:\s*17px/);
+  assert.match(darkTheme, /\.nav a\s*\{\s*font-family:\s*var\(--brand-mono\);\s*font-size:\s*\.79rem/);
+  assert.match(darkTheme, /\.eyebrow, \.small-label, \.hero \.eyebrow,[\s\S]*?font-size: \.75rem/);
+  assert.match(darkTheme, /--readable-line:\s*68ch/);
+  assert.doesNotMatch(darkTheme, /@import\s+url|fonts\.googleapis\.com/i);
+});
+
+test("large-scale dark section rhythm uses brand slate and two editorial light transitions", () => {
+  assert.match(darkTheme, /--page-ink: #0d0f12/);
+  assert.match(darkTheme, /--page-slate: #2e4254/);
+  assert.match(darkTheme, /--page-bone: #e8e6df/);
+  assert.match(darkTheme, /--page-ice: #cfe3f2/);
+  assert.match(darkTheme, /\.demo-section\s*\{\s*background:\s*var\(--page-slate\)/);
+  assert.match(darkTheme, /\.stories-section\s*\{\s*background:\s*var\(--page-midnight\)/);
+  assert.match(darkTheme, /\.value-strip\s*\{\s*background:\s*var\(--page-deep-teal\)/);
+  assert.match(darkTheme, /\.mission-section\s*\{\s*background:\s*var\(--page-bone\)/);
+  assert.match(darkTheme, /\.vision-section\s*\{\s*background:\s*#172b37/);
+  assert.match(darkTheme, /\.independence\s*\{\s*background:\s*var\(--page-ice\)/);
+  assert.match(darkTheme, /\.faq-section\s*\{\s*background:\s*var\(--page-slate\)/);
+});
+
+test("representative copy colours on section surfaces reach WCAG AA text contrast", () => {
+  const combinations = [
+    ["Hero text", "#e8e6df", "#0d0f12"],
+    ["Demo body", "#d1e0e7", "#2e4254"],
+    ["Story body", "#c4d6df", "#101920"],
+    ["Benefits body", "#c8dbe2", "#203b49"],
+    ["Local body", "#c5d6de", "#0d1014"],
+    ["Case body", "#c8dce4", "#243846"],
+    ["Mission text", "#293c49", "#e8e6df"],
+    ["Mission metadata", "#465d6b", "#e8e6df"],
+    ["Vision body", "#d0dce3", "#172b37"],
+    ["Independence text", "#172b39", "#cfe3f2"],
+    ["FAQ body", "#c4d6df", "#2e4254"],
+    ["Ice on slate", "#cfe3f2", "#2e4254"],
+  ];
+  for (const [name, foreground, background] of combinations) {
+    assert.ok(textContrast(foreground, background) >= 4.5,
+      name + " is below WCAG AA 4.5:1: " + textContrast(foreground,background).toFixed(2));
+  }
+});
