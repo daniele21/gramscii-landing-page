@@ -170,3 +170,13 @@ Controlli: `npm test`; GitHub Actions `Landing quality` include verifiche Chromi
 La demo include un racconto a tre capitoli — documenti, inferenza locale (nelle configurazioni supportate) e fonte verificabile — con pannello sticky su desktop e disposizione in flusso naturale su tablet/mobile. Tutti i testi rimangono leggibili senza JavaScript; il pannello è una visualizzazione illustrativa, **non** una dimostrazione live dell'engine. La hero ospita una firma ASCII locale che si anima lentamente solo quando visibile, si interrompe fuori schermo e rispetta la riduzione del movimento. Nessun GSAP/Lenis/CDN è stato aggiunto.
 
 **Revisione visiva**: il job `visual-layout` produce quattro schermate reali Chromium (`hero-1440`, `hero-390`, `journey-1440`, `journey-390`) e le salva come artifact `gramscii-visual-review` nella GitHub Action. Questa evidenza permette il confronto umano del layout e del ritmo editoriale; gli screenshot singoli non dimostrano la fluidità delle animazioni.
+
+### Revisione visuale V3 — risultato verificato, non solo animazione
+
+Le immagini precedenti catturavano l'hero mentre l'animazione iniziale teneva i contenuti trasparenti: non erano anteprime affidabili. `.github/ci/visual-snapshots.mjs` ora cattura lo **stato visivo assestato** senza alterare la pagina reale e non sovrappone didascalie ai testi.
+
+La revisione visuale ha individuato e corretto una vera regressione mobile: una regola desktop tardiva di `brand-dark.css` forzava due colonne anche sotto 800px e sovrapponeva l'anteprima al testo. L'audit Chromium controlla ora che la hero usi una singola colonna e che l'anteprima inizi dopo la copy sui viewport mobile.
+
+Il trace a tre passaggi considera i rapporti di visibilità **di tutti** i capitoli (non solo gli ultimi cambiati) così l'indicatore rimane sincronizzato con il passaggio maggiormente visibile. Le animazioni di background dei nodi sono eliminate per prevenire transitori a basso contrasto. La trama ASCII è spostata nello spazio negativo sopra la preview, mai sul testo.
+
+Il job `visual-layout` mette a disposizione due artifacts: `gramscii-visual-review` (schermate) e `gramscii-local-preview` (solo asset statici pronti per una preview offline, **nessun deploy**). Per vedere la copia esatta dell'Actions run, scarica ed estrai il bundle, apri il Terminale nella cartella estratta e avvia `python3 -m http.server 4173`.

@@ -46,3 +46,18 @@ jobs:
           include-hidden-files: true
           retention-days: 14
           if-no-files-found: error
+
+      - name: Package self-contained local preview (no deploy)
+        run: |
+          set -euo pipefail
+          mkdir -p local-preview/src
+          cp index.html styles.css brand-dark.css motion.css storytelling.css favicon.svg local-preview/
+          cp src/app.js src/content.js src/motion.js src/storytelling.js local-preview/src/
+          test -s local-preview/index.html
+      - name: Upload local preview bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: gramscii-local-preview
+          path: local-preview/
+          retention-days: 7
+          if-no-files-found: error

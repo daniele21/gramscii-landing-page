@@ -62,6 +62,21 @@ try {
    problems.push("ASCII hero field missing or empty");
  if(isNaN(Number.parseFloat(win.getComputedStyle(d.querySelector(".proof-scene")).width)))
    problems.push("source-trace scene has invalid width");
+ // Capture evidence uncovered a real 390px regression: a late desktop
+ // grid-template-columns rule overrode mobile layout and made the floating
+ // product preview occupy the same row as the full-height copy.
+ const heroGrid=d.querySelector(".hero-grid");
+ const heroCopy=d.querySelector(".hero-copy");
+ const heroVisual=d.querySelector(".hero-visual");
+ if(width<=800){
+   const computedColumns=win.getComputedStyle(heroGrid).gridTemplateColumns.trim().split(/\\s+/);
+   if(computedColumns.length!==1)problems.push(
+     "mobile hero uses "+computedColumns.length+" columns: "+computedColumns.join(" | "));
+   const copyRect=heroCopy.getBoundingClientRect();
+   const visualRect=heroVisual.getBoundingClientRect();
+   if(visualRect.top<copyRect.bottom-3)problems.push(
+     "hero preview overlaps copy: visualTop="+visualRect.top+" copyBottom="+copyRect.bottom);
+ }
  const heading=d.getElementById("hero-heading");
  const computed=win.getComputedStyle(heading);
  if(!computed.fontFamily.includes("Georgia"))problems.push("heading font: "+computed.fontFamily);

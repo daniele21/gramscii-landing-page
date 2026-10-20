@@ -25,11 +25,32 @@ function wrapper(width,scene){
  .caption{position:absolute;pointer-events:none;z-index:9;right:8px;bottom:8px;padding:8px;background:#132330cc;border:1px solid #668599;font-size:10px}
  </style></head><body><div class="screen">
  <iframe title="Live Gramscii landing" src="/index.html"></iframe>
- <div class="caption">${heading} / ${width}px</div>
+
  </div><script>
  const frame=document.querySelector("iframe");
  frame.addEventListener("load",()=>{
-   ${scene==="journey"?'setTimeout(()=>{const el=frame.contentDocument.querySelector(".proof-journey"); if(el)el.scrollIntoView({behavior:"instant",block:"center"});},250);':''}
+   const d=frame.contentDocument;
+   const w=frame.contentWindow;
+   setTimeout(()=>{
+     if ("${scene}"==="journey"){
+       const target=d.querySelector(".proof-journey");
+       if(target)w.scrollTo({top:target.getBoundingClientRect().top+w.scrollY-95,behavior:"instant"});
+     }
+     // Capture the fully settled editorial composition. Previous artifacts
+     // silently caught the CSS hero animation at opacity:0 and showed a blank
+     // page. Stop ephemeral motion ONLY inside this QA iframe.
+     d.documentElement.classList.remove("motion-ready");
+     d.documentElement.classList.add("motion-static");
+     d.querySelectorAll(".reveal-pending").forEach(el=>el.classList.add("is-visible"));
+     const style=d.createElement("style");
+     style.textContent="*,*::before,*::after{animation:none!important;transition:none!important}";
+     d.head.append(style);
+     const title=d.getElementById("hero-heading");
+     if(title&&Number.parseFloat(w.getComputedStyle(title).opacity)<.99){
+       d.documentElement.dataset.visualCaptureError="hero-hidden";
+     }
+     d.documentElement.dataset.visualCaptureReady="true";
+   },220);
  },{once:true});
  </script></body></html>`;
 }
