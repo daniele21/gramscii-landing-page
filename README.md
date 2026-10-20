@@ -135,7 +135,7 @@ La palette e la tipografia non cambiano con questa revisione: tema dark con Bodo
 
 ## Pubblicazione
 
-Il sito è completamente statico ed è ospitabile su GitHub Pages, Netlify, Vercel o qualsiasi hosting statico. Dopo il merge su main, puoi utilizzare GitHub Pages in Settings → Pages → Deploy from a branch → main / root.
+Il sito è completamente statico ed è ospitabile su GitHub Pages, Netlify, Vercel o altri servizi. Il deploy automatico previsto per questo repository usa **GitHub Actions**, non «Deploy from a branch». L'owner deve scegliere Settings → Pages → **Source: GitHub Actions**.
 
 Prima del lancio: asset ufficiali, revisione legale dei claim, output reali del prodotto e un canale di contatto commerciale definitivo.
 
@@ -147,7 +147,7 @@ Oltre a npm test, verificare browser desktop e mobile (320px–1440px), interazi
 
 La verifica CI e la pubblicazione sono due passaggi diversi: un merge su `main` aggiorna il codice, **non** un'anteprima HTML aperta da un vecchio file locale o una copia servita da altri hosting.
 
-Il workflow `.github/workflows/pages.yml` esegue i test Node e l'audit Chromium, include solo gli asset pubblici necessari e pubblica su GitHub Pages a ogni push su `main`, se GitHub Pages è stato attivato.
+Il workflow `.github/workflows/deploy-pages.yml` esegue i test Node e l'audit Chromium, include solo gli asset pubblici necessari e pubblica su GitHub Pages a ogni push su `main`, se GitHub Pages è stato attivato.
 
 **Attivazione iniziale (owner):** aprire `https://github.com/daniele21/gramscii-landing-page/settings/pages` e scegliere **Build and deployment → Source → GitHub Actions**. Il workflow di deploy può poi essere riavviato manualmente da Actions; l'URL standard del progetto è `https://daniele21.github.io/gramscii-landing-page/`, salvo domini personalizzati.
 
