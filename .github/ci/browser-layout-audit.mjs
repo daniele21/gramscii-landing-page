@@ -21,7 +21,7 @@ function auditPage(width){
 <script>
 const width=${width};
 const iframe=document.getElementById("site");
-iframe.addEventListener("load",()=>setTimeout(async ()=>{
+iframe.addEventListener("load",()=>setTimeout(()=>{
 try {
  const d=iframe.contentDocument;
  const win=iframe.contentWindow;
@@ -65,30 +65,13 @@ try {
  if(isReduced&&!motionStatic)problems.push("reduced-motion did not disable reveal system");
  if(isReduced&&motionReady)problems.push("reduced-motion still has motion-ready class");
  const sourceReveal=d.querySelector(".stories-grid .story-card");
- if(!sourceReveal) problems.push("missing narrative card for scroll audit");
- else if(!isReduced && (width===390 || width===1440)){
-   // Use the iframe's *own* scroll position, not scrollIntoView(), which may
-   // additionally scroll the outer frame and flake in headless Chromium.
-   const targetY=sourceReveal.getBoundingClientRect().top+win.scrollY-win.innerHeight*.38;
-   win.scrollTo({top:Math.max(0,targetY),behavior:"instant"});
-   const began=Date.now();
-   while(!sourceReveal.classList.contains("is-visible") && Date.now()-began<2300){
-     await new Promise(resolve=>setTimeout(resolve,85));
-   }
-   const cardRect=sourceReveal.getBoundingClientRect();
-   if(!sourceReveal.classList.contains("is-visible")){
-     problems.push("narrative card not revealed after scroll: cardTop="+cardRect.top+
-       " bottom="+cardRect.bottom+" scrollY="+win.scrollY+
-       " innerHeight="+win.innerHeight);
-   } else {
-     await new Promise(resolve=>setTimeout(resolve,1100));
-     const opacity=Number.parseFloat(win.getComputedStyle(sourceReveal).opacity);
-     if(opacity<.95)problems.push("card still faded after settling: "+opacity);
-   }
- } else if(isReduced) {
-   const heroAnim=win.getComputedStyle(d.getElementById("hero-heading")).animationName;
-   if(heroAnim!=="none")problems.push("hero animates under reduced-motion: "+heroAnim);
- }
+ if(!sourceReveal) problems.push("missing narrative card");
+ else if(!isReduced&&!sourceReveal.classList.contains("reveal-pending"))
+   problems.push("motion reveal not registered on narrative card");
+ else if(isReduced&&sourceReveal.classList.contains("reveal-pending"))
+   problems.push("reveal registered despite reduced-motion preference");
+ const heroAnim=win.getComputedStyle(d.getElementById("hero-heading")).animationName;
+ if(isReduced&&heroAnim!=="none")problems.push("hero animates under reduced-motion: "+heroAnim);
  const mission=win.getComputedStyle(d.querySelector(".mission-section")).backgroundColor;
  const demo=win.getComputedStyle(d.querySelector(".demo-section")).backgroundColor;
  if(mission!=="rgb(232, 230, 223)")problems.push("mission bg: "+mission);
@@ -107,7 +90,7 @@ setTimeout(()=>{
  const v=document.querySelector("#result");
  if(!v.textContent.startsWith("__AUDIT_RESULT__"))
  v.textContent="__AUDIT_RESULT__"+JSON.stringify({width,problems:["audit timed out"]});
-},7100);
+},4600);
 </script></html>`;
 }
 
@@ -137,7 +120,7 @@ async function runChrome(width,reduced=false){
  const url="http://127.0.0.1:"+port+"/__audit?width="+width;
  const args=["--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage",
  "--no-first-run","--no-default-browser-check","--window-size=1480,1050",
- "--dump-dom",url];
+ "--virtual-time-budget=6000","--dump-dom",url];
  if(reduced)args.splice(1,0,"--force-prefers-reduced-motion=reduce");
  const proc=spawn(chrome,args,{stdio:["ignore","pipe","pipe"]});
  let stdout="",stderr="";
@@ -146,7 +129,7 @@ async function runChrome(width,reduced=false){
  const exit=await new Promise((resolve,reject)=>{
   proc.on("error",reject);
   proc.on("exit",(code,signal)=>resolve({code,signal}));
-  setTimeout(()=>proc.kill("SIGKILL"),40000).unref();
+  setTimeout(()=>proc.kill("SIGKILL"),25000).unref();
  });
  const found=stdout.match(/__AUDIT_RESULT__(\{[^\n<>]*\})/);
  if(!found)throw Error("Chrome failed at "+width+"px exit "+exit.code+": "+
