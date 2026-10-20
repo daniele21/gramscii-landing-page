@@ -32,9 +32,9 @@ function wrapper(width,scene){
    const d=frame.contentDocument;
    const w=frame.contentWindow;
    setTimeout(()=>{
-     if ("${scene}"==="journey"){
-       const target=d.querySelector(".proof-journey");
-       if(target)w.scrollTo({top:target.getBoundingClientRect().top+w.scrollY-95,behavior:"instant"});
+     if ("${scene}"==="journey"||"${scene}"==="comparison"){
+       const target=d.querySelector("${scene}"==="journey"?".proof-journey":".compare-section");
+       if(target)w.scrollTo({top:target.getBoundingClientRect().top+w.scrollY-25,behavior:"instant"});
      }
      // Capture the fully settled editorial composition. Previous artifacts
      // silently caught the CSS hero animation at opacity:0 and showed a blank
@@ -74,7 +74,7 @@ server.listen(0,"127.0.0.1");
 await once(server,"listening");
 const port=server.address().port;
 try{
- for(const scene of ["hero","journey"]){
+ for(const scene of ["hero","journey","comparison"]){
   for(const width of [1440,390]){
    const dest=path.join(out,scene+"-"+width+".png");
    const args=[
