@@ -9,6 +9,7 @@ const darkTheme = readFileSync(new URL("../brand-dark.css", import.meta.url), "u
 const js = readFileSync(new URL("../src/app.js", import.meta.url), "utf8");
 const motionJs = readFileSync(new URL("../src/motion.js", import.meta.url), "utf8");
 const motionCss = readFileSync(new URL("../motion.css", import.meta.url), "utf8");
+const comparisonCss = readFileSync(new URL("../comparison.css", import.meta.url), "utf8");
 
 test("every demo citation points to a real excerpt in its own scenario", () => {
   assert.equal(Object.keys(scenarios).length, 3);
@@ -93,10 +94,10 @@ test("brand dark theme preserves original Gramscii palette and typographic ident
   assert.match(html, /name="theme-color" content="#0d0f12"/);
   assert.match(html, /class="preview-window"/);
   assert.match(html, /ANTEPRIMA ILLUSTRATIVA/);
-  assert.match(html, /value-private/);
-  assert.match(html, /value-sources/);
-  assert.match(html, /value-offline/);
-  assert.match(html, /value-tailored/);
+  assert.match(html, /class="section compare-section"/);
+  assert.match(html, /class="compare-panel compare-manual"/);
+  assert.match(html, /class="compare-panel compare-gramscii"/);
+  assert.doesNotMatch(html, /class="value-strip"/);
   for (const color of ["#0d0f12","#e8e6df","#6f9490","#cfe3f2","#8fb4cf","#5a7e9a","#2e4254"]) {
     assert.ok(darkTheme.includes(color), "Missing brand token " + color);
   }
@@ -126,11 +127,11 @@ test("commercial hero begins with the brand promise and a concrete, qualified pr
   const hero = html.indexOf('class="hero section-shell"');
   const demo = html.indexOf('class="section demo-section"');
   const stories = html.indexOf('class="section stories-section"');
-  const benefits = html.indexOf('class="value-strip"');
+  const compare = html.indexOf('class="section compare-section"');
   const mission = html.indexOf('class="section mission-section"');
   const vision = html.indexOf('class="section vision-section"');
-  assert.ok(hero < demo && demo < stories && stories < benefits && benefits < mission && mission < vision,
-    "Narrative order should be promise → proof → relatable stories → capabilities → mission → vision");
+  assert.ok(hero < demo && demo < compare && compare < stories && stories < mission && mission < vision,
+    "Narrative order should be promise → proof → comparison → relatable stories → mission → vision");
 });
 
 test("everyday stories have concrete situations and actionable destinations", () => {
@@ -200,7 +201,7 @@ test("large-scale dark section rhythm uses brand slate and two editorial light t
   assert.match(darkTheme, /--page-ice: #cfe3f2/);
   assert.match(darkTheme, /\.demo-section\s*\{\s*background:\s*var\(--page-slate\)/);
   assert.match(darkTheme, /\.stories-section\s*\{\s*background:\s*var\(--page-midnight\)/);
-  assert.match(darkTheme, /\.value-strip\s*\{\s*background:\s*var\(--page-deep-teal\)/);
+  assert.match(comparisonCss, /\.compare-section\s*\{[\s\S]*?background:\s*#203b49/);
   assert.match(darkTheme, /\.mission-section\s*\{\s*background:\s*var\(--page-bone\)/);
   assert.match(darkTheme, /\.vision-section\s*\{\s*background:\s*#172b37/);
   assert.match(darkTheme, /\.independence\s*\{\s*background:\s*var\(--page-ice\)/);
@@ -212,7 +213,9 @@ test("representative copy colours on section surfaces reach WCAG AA text contras
     ["Hero text", "#e8e6df", "#0d0f12"],
     ["Demo body", "#d1e0e7", "#2e4254"],
     ["Story body", "#c4d6df", "#101920"],
-    ["Benefits body", "#c8dbe2", "#203b49"],
+    ["Comparison intro", "#d0e1e9", "#203b49"],
+    ["Manual comparison copy", "#e3edf2", "#132936"],
+    ["Gramscii comparison copy", "#e3edf2", "#254451"],
     ["Local body", "#c5d6de", "#0d1014"],
     ["Case body", "#c8dce4", "#243846"],
     ["Mission text", "#293c49", "#e8e6df"],
@@ -278,4 +281,37 @@ test("motion is optional for semantics, accessibility and demo controls", () => 
   assert.match(js, /pulseEvidence\(workspace\)/);
   assert.match(js, /pulseEvidence\(\$\("#mode-" \+ selected\)\)/);
   assert.match(motionCss, /\.story-card:focus-within/);
+});
+
+test("outcome comparison uses equivalent manual vs assisted steps and avoids unproven superiority", () => {
+  const section = html.match(/<section class="section compare-section"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section, "Comparison section missing");
+  assert.match(section, /id="perche" aria-labelledby="compare-heading"/);
+  assert.match(section, /Dalla ricerca manuale alla/);
+  assert.match(section, /risposta verificabile/);
+  const manual = section.match(/<article class="compare-panel compare-manual"[\s\S]*?<\/article>/)?.[0];
+  const gramscii = section.match(/<article class="compare-panel compare-gramscii"[\s\S]*?<\/article>/)?.[0];
+  assert.ok(manual && gramscii, "Two distinct comparison columns are required");
+  for(const panel of [manual, gramscii]) {
+    assert.equal((panel.match(/<li>/g) ?? []).length, 3, "Each workflow should have exactly three steps");
+    assert.match(panel, /<ol class="compare-steps">/);
+  }
+  assert.match(gramscii, /Apri e verifichi le fonti/);
+  assert.match(gramscii, /La ricerca è assistita\. La verifica resta nelle tue mani/);
+  assert.match(section, /Nella modalità completamente locale/);
+  assert.match(section, /Esempio illustrativo dei flussi di lavoro, non un benchmark prestazionale/);
+  assert.match(section, /href="#demo"/);
+  assert.doesNotMatch(section, /risparmi il \d+%|\d+ ore risparmiate|ChatGPT non può|garantito/i);
+});
+
+test("comparison styling is readable, stacks on phones, and keeps native accessibility", () => {
+  assert.match(html, /href="\.\/comparison\.css"/);
+  assert.match(comparisonCss, /\.compare-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(comparisonCss, /@media \(max-width: 720px\)\s*\{[\s\S]*?\.compare-grid \{ grid-template-columns: minmax\(0,1fr\)/);
+  assert.match(comparisonCss, /\.compare-link:focus-visible/);
+  assert.match(comparisonCss, /prefers-reduced-motion:no-preference/);
+  assert.doesNotMatch(comparisonCss, /@import|fonts\.googleapis\.com|url\s*\(/i);
+  assert.match(motionJs, /"\.compare-heading h2"/);
+  assert.match(motionJs, /"\.compare-grid > \.compare-panel"/);
+  assert.ok(existsSync(new URL("../comparison.css", import.meta.url)));
 });
