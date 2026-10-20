@@ -5,7 +5,7 @@ import { scenarios } from "../src/content.js";
 
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
-const softTheme = readFileSync(new URL("../soft-theme.css", import.meta.url), "utf8");
+const darkTheme = readFileSync(new URL("../brand-dark.css", import.meta.url), "utf8");
 const js = readFileSync(new URL("../src/app.js", import.meta.url), "utf8");
 
 test("every demo citation points to a real excerpt in its own scenario", () => {
@@ -85,21 +85,29 @@ test("all local dependencies referenced in head exist", () => {
   }
 });
 
-test("soft-hybrid page honours Gramscii palette, gentle cards and contrasting sections", () => {
-  assert.match(html, /href="\.\/soft-theme\.css"/);
+test("brand dark theme preserves original Gramscii palette and typographic identity", () => {
+  assert.match(html, /href="\.\/brand-dark\.css"/);
+  assert.doesNotMatch(html, /soft-theme\.css/);
+  assert.match(html, /name="theme-color" content="#0d0f12"/);
   assert.match(html, /class="preview-window"/);
   assert.match(html, /ANTEPRIMA ILLUSTRATIVA/);
   assert.match(html, /value-private/);
   assert.match(html, /value-sources/);
   assert.match(html, /value-offline/);
   assert.match(html, /value-tailored/);
-  assert.match(softTheme, /--paper: #f8f9f8/);
-  assert.match(softTheme, /--friendly:/);
-  assert.match(softTheme, /\.local-section\s*\{[^}]*background:/);
-  assert.match(softTheme, /\.demo-frame\s*\{[^}]*border-radius: 28px/);
-  assert.match(softTheme, /@media\(max-width:560px\)/);
-  assert.match(softTheme, /prefers-reduced-motion/);
+  for (const color of ["#0d0f12","#e8e6df","#6f9490","#cfe3f2","#8fb4cf","#5a7e9a","#2e4254"]) {
+    assert.ok(darkTheme.includes(color), "Missing brand token " + color);
+  }
+  assert.match(darkTheme, /--brand-serif:/);
+  assert.match(darkTheme, /--brand-mono:/);
+  assert.match(darkTheme, /color-scheme: dark/);
+  assert.match(darkTheme, /\.local-section\s*\{[^}]*background:/);
+  assert.match(darkTheme, /\.demo-frame\s*\{[^}]*border-radius:/);
+  assert.match(darkTheme, /@media\(max-width:560px\)/);
+  assert.match(darkTheme, /prefers-reduced-motion/);
+  assert.doesNotMatch(darkTheme, /Manrope|Nunito Sans|Plus Jakarta Sans/);
 });
+
 
 test("no fabricated absolute privacy or compliance promises are on the landing", () => {
   assert.doesNotMatch(html, /GDPR compliant by default|sempre compliant|nessun dato nel cloud, mai/i);
