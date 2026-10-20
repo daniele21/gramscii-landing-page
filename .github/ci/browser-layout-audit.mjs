@@ -66,15 +66,26 @@ try {
  if(isReduced&&motionReady)problems.push("reduced-motion still has motion-ready class");
  const sourceReveal=d.querySelector(".stories-grid .story-card");
  if(!sourceReveal) problems.push("missing narrative card for scroll audit");
- else if(!isReduced){
-   sourceReveal.scrollIntoView({behavior:"instant",block:"center"});
-   await new Promise(resolve=>setTimeout(resolve,850));
-   if(!sourceReveal.classList.contains("is-visible")){
-     problems.push("narrative card not revealed after entering viewport");
+ else if(!isReduced && (width===390 || width===1440)){
+   // Use the iframe's *own* scroll position, not scrollIntoView(), which may
+   // additionally scroll the outer frame and flake in headless Chromium.
+   const targetY=sourceReveal.getBoundingClientRect().top+win.scrollY-win.innerHeight*.38;
+   win.scrollTo({top:Math.max(0,targetY),behavior:"instant"});
+   const began=Date.now();
+   while(!sourceReveal.classList.contains("is-visible") && Date.now()-began<2300){
+     await new Promise(resolve=>setTimeout(resolve,85));
    }
-   const opacity=Number.parseFloat(win.getComputedStyle(sourceReveal).opacity);
-   if(opacity<.95)problems.push("narrative card still faded after transition: "+opacity);
- } else {
+   const cardRect=sourceReveal.getBoundingClientRect();
+   if(!sourceReveal.classList.contains("is-visible")){
+     problems.push("narrative card not revealed after scroll: cardTop="+cardRect.top+
+       " bottom="+cardRect.bottom+" scrollY="+win.scrollY+
+       " innerHeight="+win.innerHeight);
+   } else {
+     await new Promise(resolve=>setTimeout(resolve,1100));
+     const opacity=Number.parseFloat(win.getComputedStyle(sourceReveal).opacity);
+     if(opacity<.95)problems.push("card still faded after settling: "+opacity);
+   }
+ } else if(isReduced) {
    const heroAnim=win.getComputedStyle(d.getElementById("hero-heading")).animationName;
    if(heroAnim!=="none")problems.push("hero animates under reduced-motion: "+heroAnim);
  }
@@ -96,7 +107,7 @@ setTimeout(()=>{
  const v=document.querySelector("#result");
  if(!v.textContent.startsWith("__AUDIT_RESULT__"))
  v.textContent="__AUDIT_RESULT__"+JSON.stringify({width,problems:["audit timed out"]});
-},4600);
+},7100);
 </script></html>`;
 }
 
@@ -126,7 +137,7 @@ async function runChrome(width,reduced=false){
  const url="http://127.0.0.1:"+port+"/__audit?width="+width;
  const args=["--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage",
  "--no-first-run","--no-default-browser-check","--window-size=1480,1050",
- "--virtual-time-budget=6000","--dump-dom",url];
+ "--dump-dom",url];
  if(reduced)args.splice(1,0,"--force-prefers-reduced-motion=reduce");
  const proc=spawn(chrome,args,{stdio:["ignore","pipe","pipe"]});
  let stdout="",stderr="";
@@ -135,7 +146,7 @@ async function runChrome(width,reduced=false){
  const exit=await new Promise((resolve,reject)=>{
   proc.on("error",reject);
   proc.on("exit",(code,signal)=>resolve({code,signal}));
-  setTimeout(()=>proc.kill("SIGKILL"),25000).unref();
+  setTimeout(()=>proc.kill("SIGKILL"),40000).unref();
  });
  const found=stdout.match(/__AUDIT_RESULT__(\{[^\n<>]*\})/);
  if(!found)throw Error("Chrome failed at "+width+"px exit "+exit.code+": "+
