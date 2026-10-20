@@ -32,7 +32,7 @@ try {
  if(viewport>width+1||viewport<width-20)problems.push("iframe viewport beyond scrollbar allowance: "+viewport+" / "+width);
  if(scroll>viewport+3)problems.push("document horizontal scroll: "+(scroll-viewport)+"px");
  const core=[".site-header",".hero h1",".demo-frame",".stories-grid",".value-grid",
- ".local-illustration",".case-grid",".mission-content",".vision-path",".faq-list",".proof-scene",".proof-stages"];
+ ".local-illustration",".case-grid",".mission-content",".vision-path",".faq-list",".proof-scene",".proof-stages",".compare-section",".compare-grid"];
  for(const selector of core){
   const el=d.querySelector(selector);
   if(!el){problems.push("missing "+selector);continue;}
@@ -76,6 +76,21 @@ try {
    const visualRect=heroVisual.getBoundingClientRect();
    if(visualRect.top<copyRect.bottom-3)problems.push(
      "hero preview overlaps copy: visualTop="+visualRect.top+" copyBottom="+copyRect.bottom);
+ }
+ const comparison=d.querySelector(".compare-section");
+ const panelList=d.querySelectorAll(".compare-grid .compare-panel");
+ if(!comparison||panelList.length!==2)problems.push("manual vs Gramscii comparison missing 2 panels");
+ else {
+  const columns=win.getComputedStyle(d.querySelector(".compare-grid")).gridTemplateColumns.trim().split(/\s+/).length;
+  const expected=width<=720?1:2;
+  if(columns!==expected)problems.push("comparison grid "+columns+" columns, expected "+expected);
+  const first=panelList[0].getBoundingClientRect();
+  const second=panelList[1].getBoundingClientRect();
+  if(width<=720&&second.top<first.bottom-3)problems.push("mobile comparison panels overlap");
+  for(const panel of panelList){
+   const rect=panel.getBoundingClientRect();
+   if(rect.left < -4 || rect.right>viewport+4)problems.push("comparison panel overflow");
+  }
  }
  const heading=d.getElementById("hero-heading");
  const computed=win.getComputedStyle(heading);
