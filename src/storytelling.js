@@ -48,13 +48,27 @@ export function initProofJourney(doc = document, win = window) {
   setProofStep(scene, steps, 0);
 
   if (typeof win.IntersectionObserver !== "function") return () => {};
+  // IntersectionObserver callbacks contain only CHANGED entries, not a full
+  // snapshot of every chapter. Persist each ratio so the scene always picks
+  // the most visible chapter rather than whichever entry fired last.
+  const ratios = new Map(steps.map(step => [step, 0]));
   const observer = new win.IntersectionObserver(entries => {
-    const visible = entries.filter(entry => entry.isIntersecting);
-    if (!visible.length) return;
-    // Choose the most visible chapter; makes scrolling up reversible.
-    visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-    const index = steps.indexOf(visible[0].target);
-    if (index >= 0) setProofStep(scene, steps, index);
+    for (const entry of entries) {
+      if (!ratios.has(entry.target)) continue;
+      ratios.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
+    }
+    let bestIndex = -1;
+    let bestRatio = 0;
+    for (const [index, step] of steps.entries()) {
+      const ratio = ratios.get(step) ?? 0;
+      if (ratio > bestRatio) {
+        bestRatio = ratio;
+        bestIndex = index;
+      }
+    }
+    if (bestIndex >= 0 && Number(scene.dataset.activeStep) !== bestIndex) {
+      setProofStep(scene, steps, bestIndex);
+    }
   }, { rootMargin: "-16% 0px -30% 0px", threshold: [0, .1, .3, .5, .7] });
 
   steps.forEach(step => observer.observe(step));
