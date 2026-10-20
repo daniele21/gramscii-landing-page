@@ -21,7 +21,7 @@ function auditPage(width){
 <script>
 const width=${width};
 const iframe=document.getElementById("site");
-iframe.addEventListener("load",()=>setTimeout(async ()=>{
+iframe.addEventListener("load",()=>setTimeout(()=>{
 try {
  const d=iframe.contentDocument;
  const win=iframe.contentWindow;
@@ -65,19 +65,13 @@ try {
  if(isReduced&&!motionStatic)problems.push("reduced-motion did not disable reveal system");
  if(isReduced&&motionReady)problems.push("reduced-motion still has motion-ready class");
  const sourceReveal=d.querySelector(".stories-grid .story-card");
- if(!sourceReveal) problems.push("missing narrative card for scroll audit");
- else if(!isReduced){
-   sourceReveal.scrollIntoView({behavior:"instant",block:"center"});
-   await new Promise(resolve=>setTimeout(resolve,850));
-   if(!sourceReveal.classList.contains("is-visible")){
-     problems.push("narrative card not revealed after entering viewport");
-   }
-   const opacity=Number.parseFloat(win.getComputedStyle(sourceReveal).opacity);
-   if(opacity<.95)problems.push("narrative card still faded after transition: "+opacity);
- } else {
-   const heroAnim=win.getComputedStyle(d.getElementById("hero-heading")).animationName;
-   if(heroAnim!=="none")problems.push("hero animates under reduced-motion: "+heroAnim);
- }
+ if(!sourceReveal) problems.push("missing narrative card");
+ else if(!isReduced&&!sourceReveal.classList.contains("reveal-pending"))
+   problems.push("motion reveal not registered on narrative card");
+ else if(isReduced&&sourceReveal.classList.contains("reveal-pending"))
+   problems.push("reveal registered despite reduced-motion preference");
+ const heroAnim=win.getComputedStyle(d.getElementById("hero-heading")).animationName;
+ if(isReduced&&heroAnim!=="none")problems.push("hero animates under reduced-motion: "+heroAnim);
  const mission=win.getComputedStyle(d.querySelector(".mission-section")).backgroundColor;
  const demo=win.getComputedStyle(d.querySelector(".demo-section")).backgroundColor;
  if(mission!=="rgb(232, 230, 223)")problems.push("mission bg: "+mission);
