@@ -1,0 +1,144 @@
+/*
+ * Gramscii Motion System v1
+ * Principle: deliberate motion reinforces brand, source verification and
+ * hierarchy. Only opacity and transform are animated for page-wide effects.
+ * No scrolling hijack, no font/CDN or runtime animation dependency.
+ */
+
+/* A bounded sequential entrance for the hero; semantic content is readable
+   in HTML and CSS without the JS-added .motion-ready class. */
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ready .hero .hero-traits {
+    animation: gramscii-rise .58s cubic-bezier(.22, 1, .36, 1) .03s both;
+  }
+  .motion-ready .hero #hero-heading {
+    animation: gramscii-rise .82s cubic-bezier(.22, 1, .36, 1) .13s both;
+  }
+  .motion-ready .hero .hero-outcome-block {
+    animation: gramscii-rise .7s cubic-bezier(.22, 1, .36, 1) .32s both;
+  }
+  .motion-ready .hero .hero-lead {
+    animation: gramscii-rise .7s cubic-bezier(.22, 1, .36, 1) .41s both;
+  }
+  .motion-ready .hero .hero-actions,
+  .motion-ready .hero .hero-notes {
+    animation: gramscii-rise .65s cubic-bezier(.22, 1, .36, 1) .52s both;
+  }
+  .motion-ready .hero .hero-visual {
+    animation: gramscii-visual-enter .95s cubic-bezier(.22, 1, .36, 1) .27s both;
+  }
+
+  /* A one-time entrance, not recurring animation on every scroll. */
+  .motion-ready .reveal-pending {
+    opacity: 0;
+    transform: translate3d(0, 23px, 0);
+    transition:
+      opacity .68s cubic-bezier(.22, 1, .36, 1),
+      transform .72s cubic-bezier(.22, 1, .36, 1);
+    transition-delay: var(--motion-delay, 0ms);
+  }
+  .motion-ready .reveal-pending.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Brand-specific microinteractions; never tilt a large reading surface. */
+  .story-card, .case-card, .value-item, .vision-step {
+    transition:
+      transform .32s cubic-bezier(.22, 1, .36, 1),
+      border-color .32s ease,
+      box-shadow .32s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .story-card:hover, .case-card:hover,
+    .value-item:hover, .vision-step:hover {
+      transform: translate3d(0, -4px, 0);
+      border-color: #99bbcc;
+      box-shadow: 0 14px 36px rgba(3, 11, 17, .16);
+    }
+  }
+  .story-card:focus-within, .case-card:focus-within {
+    border-color: #cfe3f2;
+  }
+
+  .hero .preview-window {
+    /* A restrained lighting pass rather than a rotating/glowing AI orb. */
+    position: relative;
+    isolation: isolate;
+  }
+  .hero .preview-window::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: -90%;
+    width: 55%;
+    height: 100%;
+    opacity: .16;
+    background: linear-gradient(110deg, transparent 15%, rgba(207, 227, 242, .13) 50%, transparent 85%);
+    transform: skewX(-18deg);
+    animation: gramscii-light-scan 13s ease-in-out 2.4s infinite;
+  }
+
+  /* The proprietary [::] language is the distinctive graphic cue. */
+  .mission-mark {
+    animation: gramscii-mark-breathe 8s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .hero .button-primary span,
+  .nav-cta span,
+  .story-action span {
+    display: inline-block;
+    transition: transform .22s cubic-bezier(.22, 1, .36, 1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .hero .button-primary:hover span,
+    .nav-cta:hover span,
+    .story-action:hover span { transform: translate3d(3px, -2px, 0); }
+  }
+}
+
+@keyframes gramscii-rise {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes gramscii-visual-enter {
+  from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.988); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes gramscii-light-scan {
+  0%, 23% { transform: translate3d(0, 0, 0) skewX(-18deg); opacity: 0; }
+  29% { opacity: .16; }
+  38%, 100% { transform: translate3d(390%, 0, 0) skewX(-18deg); opacity: 0; }
+}
+@keyframes gramscii-mark-breathe {
+  0%, 100% { opacity: .72; transform: translate3d(0, 0, 0); }
+  45% { opacity: 1; transform: translate3d(0, -3px, 0); }
+}
+
+/* Accessibility always wins, including when preference changes at runtime. */
+@media (prefers-reduced-motion: reduce) {
+  .motion-ready .hero .hero-traits,
+  .motion-ready .hero #hero-heading,
+  .motion-ready .hero .hero-outcome-block,
+  .motion-ready .hero .hero-lead,
+  .motion-ready .hero .hero-actions,
+  .motion-ready .hero .hero-notes,
+  .motion-ready .hero .hero-visual,
+  .mission-mark,
+  .hero .preview-window::after {
+    animation: none !important;
+  }
+  .motion-ready .reveal-pending {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .story-card, .case-card, .value-item, .vision-step,
+  .hero .button-primary span, .nav-cta span, .story-action span {
+    transform: none !important;
+    transition: none !important;
+  }
+}
