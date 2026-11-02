@@ -1,0 +1,11 @@
+{
+  "schema": "source-owned-mac-tasks/v1",
+  "tasks": {
+    "template-smoke": {
+      "description": "Node.js static landing and asset checks without npm dependency installation",
+      "script": ".github/ci/local-test.sh",
+      "cost_class": "free",
+      "manual_only": true
+    }
+  }
+}
